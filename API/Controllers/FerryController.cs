@@ -34,6 +34,22 @@ namespace API.Controllers
             ferryBL.Add(ferry);
         }
 
+        [Route("{ferryID}/Add/Passenger/{passengerID}")]
+        [HttpPut]
+        public Passenger AddPassengerToFerry(int ferryID, int passengerID)
+        {
+            FerryBL ferryBL = new FerryBL();
+            return ferryBL.AddPassenger(ferryID, passengerID);
+        }
+
+        [Route("{ferryID}/Remove/Passenger/{passengerID}")]
+        [HttpDelete]
+        public Passenger RemovePassengerToFerry(int ferryID, int passengerID)
+        {
+            FerryBL ferryBL = new FerryBL();
+            return ferryBL.RemovePassenger(ferryID, passengerID);
+        }
+
 
         //[Route("/{id}/Cars")]
         //[HttpGet]

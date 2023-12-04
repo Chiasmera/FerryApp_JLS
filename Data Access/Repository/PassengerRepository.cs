@@ -37,7 +37,6 @@ namespace Data_Access.Repository
             {
                 Passenger passenger = context.Passengers.Find(id);
                 if (passenger == null) { return null; }
-                Console.WriteLine($"found {passenger.Id}");
                 context.Passengers.Remove(passenger);
                 context.SaveChanges();
                 return PassengerMapper.MapFromDB( passenger);

@@ -1,5 +1,6 @@
 ﻿using Data_Access.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Data_Access.Mappers
     {
         internal static Data_Transfer_Objects.Model.Car MapFromDB(Car car)
         {
+            if (car == null) { return null; }
             Data_Transfer_Objects.Model.Car mappedCar = new Data_Transfer_Objects.Model.Car();
             mappedCar.Id = car.Id;
             mappedCar.Registration = car.Registration;
@@ -21,6 +23,7 @@ namespace Data_Access.Mappers
 
         internal static HashSet< Data_Transfer_Objects.Model.Car> MapAllFromDB(HashSet<Car> cars)
         {
+            if (cars.IsNullOrEmpty()) { return null; }
             HashSet<Data_Transfer_Objects.Model.Car> mappedCars = new HashSet<Data_Transfer_Objects.Model.Car>();
             foreach (Car car in cars) {
                 Data_Transfer_Objects.Model.Car mappedCar = new Data_Transfer_Objects.Model.Car();
@@ -34,7 +37,8 @@ namespace Data_Access.Mappers
 
         internal static Car MapToDB(Data_Transfer_Objects.Model.Car car)
         {
-           Car mappedCar = new Car();
+            if (car == null) { return null; }
+            Car mappedCar = new Car();
             mappedCar.Id = car.Id;
             mappedCar.Registration = car.Registration;
             mappedCar.Weight = car.Weight;
@@ -43,8 +47,8 @@ namespace Data_Access.Mappers
 
         internal static Car Update(Car oldCar, Data_Transfer_Objects.Model.Car updatedCar)
         {
-            oldCar.Name = updatedCar.Name;
-            oldCar.Gender = updatedCar.Gender;
+            oldCar.Registration = updatedCar.Registration;
+            oldCar.Weight = updatedCar.Weight;
             return oldCar;
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Business_Logic
 {
-    internal class CarBL
+    public class CarBL
     {
         public Car GetByID(int id)
         {

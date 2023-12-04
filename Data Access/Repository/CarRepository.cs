@@ -1,5 +1,6 @@
 ﻿using Data_Access.Context;
 using Data_Access.Mappers;
+using Data_Access.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repository
 {
-    internal class CarRepository
+    public class CarRepository
     {
         public static Data_Transfer_Objects.Model.Car GetByID(int id)
         {

@@ -40,6 +40,41 @@ namespace Data_Access.Repository
             }
         }
 
+        public static Data_Transfer_Objects.Model.Passenger AddPassenger(int ferryID, int passengerID)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Ferry ferry = context.Ferries.Find(ferryID);
+                if (ferry == null) { return null; }
+                Passenger passenger = context.Passengers.Find(passengerID);
+                if(passenger == null) { return null; }
+                Passenger added = ferry.AddPassenger(passenger);
+                if (added != null)
+                {
+                    context.SaveChanges();
+                }
+                return PassengerMapper.MapFromDB(added);
+            }
+        }
+
+        public static Data_Transfer_Objects.Model.Passenger RemovePassenger(int ferryID, int passengerID)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Ferry ferry = context.Ferries.Find(ferryID);
+                if (ferry == null) { return null; }
+                Passenger passenger = context.Passengers.Find(passengerID);
+                if (passenger == null) { return null; }
+                Passenger removed = ferry.RemovePassenger(passenger);
+                if (removed != null)
+                {
+                    context.SaveChanges();
+                }
+                return PassengerMapper.MapFromDB(removed);
+            }
+        }
+
+
         //public static HashSet<Data_Transfer_Objects.Model.Car> GetCars(int id)
         //{
         //    using (FerryContext context = new FerryContext())
