@@ -22,6 +22,14 @@ namespace Data_Access.Mappers
             mappedFerry.Name = ferry.Name;
             mappedFerry.PassengerPrice = ferry.PassengerPrice;
             mappedFerry.CarPrice = ferry.CarPrice;
+            foreach (Car car in ferry.Cars)
+            {
+                mappedFerry.Cars.Add(car.Id);
+            }
+            foreach (Passenger passenger in ferry.Passengers)
+            {
+                mappedFerry.Passengers.Add(passenger.Id);
+            }
             return mappedFerry;
         }
 
@@ -49,7 +57,7 @@ namespace Data_Access.Mappers
             return oldFerry;
         }
 
-        internal static HashSet<Data_Transfer_Objects.Model.Ferry> MapAllFromDB(DbSet<Ferry> ferries)
+        internal static HashSet<Data_Transfer_Objects.Model.Ferry> MapAllFromDB(IQueryable<Ferry> ferries)
         {
             if (ferries.IsNullOrEmpty()) { return null; }
             HashSet<Data_Transfer_Objects.Model.Ferry> map = new HashSet<Data_Transfer_Objects.Model.Ferry>();
@@ -63,6 +71,14 @@ namespace Data_Access.Mappers
                 mappedFerry.PassengerPrice = ferry.PassengerPrice;
                 mappedFerry.CarPrice = ferry.CarPrice;
                 map.Add(mappedFerry);
+                foreach (Car car in ferry.Cars)
+                {
+                    mappedFerry.Cars.Add(car.Id);
+                }
+                foreach (Passenger passenger in ferry.Passengers)
+                {
+                    mappedFerry.Passengers.Add(passenger.Id);
+                }
             }
             return map;
         }

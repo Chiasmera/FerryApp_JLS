@@ -17,7 +17,10 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                return FerryMapper.MapAllFromDB(context.Ferries);
+                IQueryable<Ferry> ferries = context.Ferries
+                    .Include("Cars")
+                    .Include("Passengers");
+                return FerryMapper.MapAllFromDB(ferries);
             }
         }
 
@@ -28,6 +31,7 @@ namespace Data_Access.Repository
                 if (id < 1) { return null; }
                 Ferry ferry = context.Ferries
                     .Include("Cars")
+                    .Include("Cars.Passengers")
                     .Include("Passengers")
                     .Where(f => f.Id == id)
                     .FirstOrDefault();
@@ -87,6 +91,7 @@ namespace Data_Access.Repository
             {
                 Ferry ferry = context.Ferries
                     .Include("Cars")
+                    .Include("Cars.Passengers")
                     .Include("Passengers")
                     .Where(f => f.Id == ferryID)
                     .FirstOrDefault();
@@ -108,7 +113,8 @@ namespace Data_Access.Repository
             using (FerryContext context = new FerryContext())
             {
                 Ferry ferry = context.Ferries
-                    .Include("Cars")
+                      .Include("Cars")
+                    .Include("Cars.Passengers")
                     .Include("Passengers")
                     .Where(f => f.Id == ferryID)
                     .FirstOrDefault();
@@ -130,6 +136,7 @@ namespace Data_Access.Repository
             {
                 Ferry ferry = context.Ferries
                     .Include("Cars")
+                    .Include("Cars.Passengers")
                     .Include("Passengers")
                     .Where(f => f.Id == ferryID)
                     .FirstOrDefault();
@@ -151,6 +158,7 @@ namespace Data_Access.Repository
             {
                 Ferry ferry = context.Ferries
                     .Include("Cars")
+                    .Include("Cars.Passengers")
                     .Include("Passengers")
                     .Where(f => f.Id == ferryID)
                     .FirstOrDefault();
