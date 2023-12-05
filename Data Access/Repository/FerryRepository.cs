@@ -39,20 +39,20 @@ namespace Data_Access.Repository
             }
         }
 
-        public static double GetIncome(int id)
-        {
-            using (FerryContext context = new FerryContext())
-            {
-                if (id < 1) { return -1; }
-                Ferry ferry = context.Ferries
-                    .Include(f => f.Cars).ThenInclude(c => c.Passengers)
-                    .Include(f => f.Passengers)
-                    .Where(f => f.Id == id)
-                    .FirstOrDefault();
-                if (ferry == null) { return -1; }
-                return ferry.GetTotalPrice();
-            }
-        }
+        //public static double GetIncome(int id)
+        //{
+        //    using (FerryContext context = new FerryContext())
+        //    {
+        //        if (id < 1) { return -1; }
+        //        Ferry ferry = context.Ferries
+        //            .Include(f => f.Cars).ThenInclude(c => c.Passengers)
+        //            .Include(f => f.Passengers)
+        //            .Where(f => f.Id == id)
+        //            .FirstOrDefault();
+        //        if (ferry == null) { return -1; }
+        //        return ferry.GetTotalPrice();
+        //    }
+        //}
 
         public static Data_Transfer_Objects.Model.Ferry Add(Data_Transfer_Objects.Model.Ferry ferry)
         {

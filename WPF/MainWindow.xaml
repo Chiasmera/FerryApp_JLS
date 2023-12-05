@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <ListView x:Name="ferryListView" Loaded="ferryListView_Loaded" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Cars.Count}" Header="Cars" Width="60"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPassengers}" Header="Passengers" Width="60"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalIncome}" Header="Income" Width="60"/>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Width="120"/>
 
     </Grid>
 </Window>

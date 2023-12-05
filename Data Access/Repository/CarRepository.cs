@@ -16,7 +16,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Include("Passengers").Where(c => c.Id == id).FirstOrDefault();
+                Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == id).FirstOrDefault();
                 if (car == null) { return null; }
                 return CarMapper.MapFromDB(car);
             }
@@ -45,7 +45,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Include("Passengers").Where(c => c.Id == id).FirstOrDefault();
+                Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == id).FirstOrDefault();
                 if (car == null) { return null; }
                 context.Cars.Remove(car);
                 context.SaveChanges();
@@ -57,7 +57,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Include("Passengers").Where(c => c.Id == updatedCar.Id).FirstOrDefault();
+                Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == updatedCar.Id).FirstOrDefault();
                 if (car == null) { return null; }
 
                 //Update car itself
@@ -97,7 +97,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Include("Passengers").Where(c => c.Id == carID).FirstOrDefault();
+                Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == carID).FirstOrDefault();
                 if (car == null) { return null; }
 
                 foreach (int id in driverIDs)

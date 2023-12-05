@@ -7,4 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data Transfer Objects\Data Transfer Objects.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -24,12 +24,41 @@ namespace Data_Transfer_Objects.Model
         public double PassengerPrice { get { return _passengerPrice; } set { _passengerPrice = value; } }
         public double CarPrice { get { return _carPrice; } set { _carPrice = value; } }
 
+        //Computed Properties---------------------
+        public double TotalIncome
+        {
+            get
+            {
+                double totalIncome = 0;
+                foreach (Car car in _cars)
+                {
+                    totalIncome += car.Passengers.Count * _passengerPrice + _carPrice;
+                }
+                totalIncome += _passengers.Count * _passengerPrice;
+                return totalIncome;
+            }
+        }
+
+        public double TotalPassengers
+        {
+            get
+            {
+                int count = Passengers.Count;
+                foreach (Car car in _cars)
+                {
+                    count += car.Passengers.Count;
+                }
+                return count;
+
+            }
+        }
+
         //Linkattributes--------------------------
         private HashSet<Car> _cars = new HashSet<Car>();
-        public HashSet<Car> Cars { get { return _cars; } }
+        public HashSet<Car> Cars { get { return _cars; } set { _cars = value; } }
 
         private HashSet<int> _passengers = new HashSet<int>();
-        public HashSet<int> Passengers { get { return _passengers; } }
+        public HashSet<int> Passengers { get { return _passengers; } set { _passengers = value; } }
 
         //Constructors -------------------------------------------------------
         public Ferry() { }
@@ -42,7 +71,7 @@ namespace Data_Transfer_Objects.Model
         }
 
         //Methods-------------------------------------------------------------
-      
+
 
     }
 }

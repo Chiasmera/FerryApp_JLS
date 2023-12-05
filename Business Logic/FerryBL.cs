@@ -22,11 +22,11 @@ namespace Business_Logic
             return FerryRepository.Get(id);
         }
 
-        public double GetIncome(int id)
-        {
-            if (id == null) { return -1; }
-            return FerryRepository.GetIncome(id);
-        }
+        //public double GetIncome(int id)
+        //{
+        //    if (id == null) { return -1; }
+        //    return FerryRepository.GetIncome(id);
+        //}
 
         public Ferry Add (Ferry ferry)
         {
