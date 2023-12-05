@@ -1,6 +1,7 @@
 ﻿using Data_Access.Context;
 using Data_Access.Mappers;
 using Data_Access.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Find(id);
+                Car car = context.Cars.Include("Passengers").Where(c => c.Id == id).FirstOrDefault();
                 if (car == null) { return null; }
                 return CarMapper.MapFromDB(car);
             }
@@ -25,7 +26,16 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                context.Cars.Add(CarMapper.MapToDB(car));
+                Car dbCar = CarMapper.MapToDB(car);
+
+                foreach (int id in car.Passengers)
+                {
+                    Passenger passenger = context.Passengers.Find(id);
+                    if (passenger == null) { return null; }
+                    dbCar.AddPassenger(passenger);
+                }
+
+                context.Cars.Add(dbCar);
                 context.SaveChanges();
                 return car;
             }
@@ -35,7 +45,7 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car car = context.Cars.Find(id);
+                Car car = context.Cars.Include("Passengers").Where(c => c.Id == id).FirstOrDefault();
                 if (car == null) { return null; }
                 context.Cars.Remove(car);
                 context.SaveChanges();
@@ -47,12 +57,58 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                Car passenger = context.Cars.Find(updatedCar.Id);
-                if (passenger == null) { return null; }
+                Car car = context.Cars.Include("Passengers").Where(c => c.Id == updatedCar.Id).FirstOrDefault();
+                if (car == null) { return null; }
 
-                Car updated = CarMapper.Update(passenger, updatedCar);
+                //Update car itself
+                Car updated = CarMapper.Update(car, updatedCar);
+
+                //Update Passengers
+                HashSet<int> ids = new HashSet<int>(updatedCar.Passengers);
+                foreach(Passenger passenger in car.Passengers)
+                {
+                    car.RemovePassenger(passenger);
+                }
+
+                foreach (Passenger passenger in car.Passengers)
+                {
+                    if (ids.Contains(passenger.Id))
+                    {
+                        car.AddPassenger(passenger);
+                        ids.Remove(passenger.Id);
+                    }
+                }
+
+                foreach (int id in ids)
+                {
+                    Passenger passenger = context.Passengers.Find(id);
+                    if (passenger == null) { return null; }
+                    car.AddPassenger(passenger);
+                }
+
+
                 context.SaveChanges();
                 return CarMapper.MapFromDB(updated);
+            }
+        }
+
+
+        public static HashSet<Data_Transfer_Objects.Model.Passenger> AddPassengers(int carID, HashSet<int> driverIDs)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Car car = context.Cars.Include("Passengers").Where(c => c.Id == carID).FirstOrDefault();
+                if (car == null) { return null; }
+
+                foreach (int id in driverIDs)
+                {
+                    Passenger passenger = context.Passengers.Find(id);
+                    if (passenger == null) { return null; }
+                    car.AddPassenger(passenger);
+                }
+
+                context.SaveChanges();
+                return PassengerMapper.MapAllFromDB(car.Passengers);
             }
         }
     }

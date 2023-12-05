@@ -42,5 +42,13 @@ namespace API.Controllers
             CarBL carBL = new CarBL();
             return carBL.Remove(id);
         }
+
+        [Route("{carID}/Add/Passengers")]
+        [HttpPut]
+        public HashSet<Passenger> AddPassengers(int carID, HashSet<int> passengers)
+        {
+            CarBL carBL = new CarBL();
+            return carBL.AddPassengers(carID, passengers);
+        }
     }
 }

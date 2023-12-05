@@ -40,16 +40,17 @@ namespace Business_Logic
             return FerryRepository.RemovePassenger(ferryID, passengerID);
         }
 
-        //public HashSet<Car> GetCars(int id)
-        //{
-        //    if (id == null) { return null;  }
-        //    return FerryRepository.GetCars(id);
-        //}
+        public Car AddCar(int ferryID, int carID)
+        {
+            if (ferryID < 0 || carID < 0) { return null; }
+            return FerryRepository.AddCar(ferryID, carID);
+        }
 
-        //public Car AddCar(int ferryID, Car car, int driverID)
-        //{
-        //    if (ferryID == null || car == null || driverID == null) { return null; }
-        //    return FerryRepository.AddCarToFerry(ferryID, car, driverID);            
-        //}
+        public Car RemoveCar(int ferryID, int carID)
+        {
+            if (ferryID < 0 || carID < 0) { return null; }
+            return FerryRepository.RemoveCar(ferryID, carID);
+        }
+
     }
 }

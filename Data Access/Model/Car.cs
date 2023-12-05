@@ -21,8 +21,8 @@ namespace Data_Access.Model
         //Linkattributes--------------------------
         private HashSet<Passenger> _passengers = new HashSet<Passenger>();
         public HashSet<Passenger> Passengers { get { return _passengers; } }
-        private Passenger _driver;
-        public Passenger Driver { get { return _driver; } set { _driver = value; } }
+        private int _driverID;
+        public int DriverID { get { return _driverID; } set { _driverID = value; } }
 
         //Constructors -------------------------------------------------------
         public Car() { }

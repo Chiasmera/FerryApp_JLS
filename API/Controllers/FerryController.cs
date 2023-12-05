@@ -36,7 +36,7 @@ namespace API.Controllers
 
         [Route("{ferryID}/Add/Passenger/{passengerID}")]
         [HttpPut]
-        public Passenger AddPassengerToFerry(int ferryID, int passengerID)
+        public Passenger AddPassenger(int ferryID, int passengerID)
         {
             FerryBL ferryBL = new FerryBL();
             return ferryBL.AddPassenger(ferryID, passengerID);
@@ -44,30 +44,27 @@ namespace API.Controllers
 
         [Route("{ferryID}/Remove/Passenger/{passengerID}")]
         [HttpDelete]
-        public Passenger RemovePassengerToFerry(int ferryID, int passengerID)
+        public Passenger RemovePassenger(int ferryID, int passengerID)
         {
             FerryBL ferryBL = new FerryBL();
             return ferryBL.RemovePassenger(ferryID, passengerID);
         }
 
+        [Route("{ferryID}/Add/Car/{carID}")]
+        [HttpPut]
+        public Car AddCar(int ferryID, int carID)
+        {
+            FerryBL ferryBL = new FerryBL();
+            return ferryBL.AddCar(ferryID, carID);
+        }
 
-        //[Route("/{id}/Cars")]
-        //[HttpGet]
-        //public HashSet<Car> GetCarsForFerry(int id)
-        //{
-        //    FerryBL ferryBL = new FerryBL();
-        //    return ferryBL.GetCarsForFerry(id);
-        //}
-
-        //[Route("/{ferryID}/Add/Car")]
-        //[HttpPost]
-        //public void AddCarToFerry(int ferryID, Car car, int driverID)
-        //{
-        //    FerryBL ferryBL = new FerryBL();
-        //    ferryBL.AddCarToFerry(ferryID, car, driverID);
-        //}
-
-
+        [Route("{ferryID}/Remove/Car/{carID}")]
+        [HttpPut]
+        public Car RemoveCar(int ferryID, int carID)
+        {
+            FerryBL ferryBL = new FerryBL();
+            return ferryBL.RemoveCar(ferryID, carID);
+        }
 
 
     }

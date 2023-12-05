@@ -1,4 +1,6 @@
 ﻿using Data_Access.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Data_Access.Mappers
 {
     internal class PassengerMapper
     {
-        internal static Data_Transfer_Objects.Model.Passenger MapFromDB (Passenger passenger)
+        internal static Data_Transfer_Objects.Model.Passenger MapFromDB(Passenger passenger)
         {
             if (passenger == null) { return null; }
             Data_Transfer_Objects.Model.Passenger mappedPassenger = new Data_Transfer_Objects.Model.Passenger();
@@ -17,6 +19,21 @@ namespace Data_Access.Mappers
             mappedPassenger.Name = passenger.Name;
             mappedPassenger.Gender = passenger.Gender;
             return mappedPassenger;
+        }
+
+        internal static HashSet<Data_Transfer_Objects.Model.Passenger> MapAllFromDB(HashSet<Passenger> passengers)
+        {
+            if (passengers.IsNullOrEmpty()) { return null; }
+            HashSet<Data_Transfer_Objects.Model.Passenger> map = new HashSet<Data_Transfer_Objects.Model.Passenger>();
+            foreach (Passenger passenger in passengers)
+            {
+                Data_Transfer_Objects.Model.Passenger mappedPassenger = new Data_Transfer_Objects.Model.Passenger();
+                mappedPassenger.Id = passenger.Id;
+                mappedPassenger.Name= passenger.Name;
+                mappedPassenger.Gender= passenger.Gender;
+                map.Add(mappedPassenger);
+            }
+            return map;
         }
 
         internal static Passenger MapToDB(Data_Transfer_Objects.Model.Passenger passenger)

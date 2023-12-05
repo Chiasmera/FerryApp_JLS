@@ -18,6 +18,11 @@ namespace Data_Access.Mappers
             mappedCar.Id = car.Id;
             mappedCar.Registration = car.Registration;
             mappedCar.Weight = car.Weight;
+            foreach (Passenger passenger in  car.Passengers)
+            {
+                mappedCar.Passengers.Add(passenger.Id);
+            }
+            mappedCar.DriverID = car.DriverID;
             return mappedCar;
         }
 
@@ -42,6 +47,7 @@ namespace Data_Access.Mappers
             mappedCar.Id = car.Id;
             mappedCar.Registration = car.Registration;
             mappedCar.Weight = car.Weight;
+            mappedCar.DriverID = car.DriverID;
             return mappedCar;
         }
 
@@ -49,6 +55,7 @@ namespace Data_Access.Mappers
         {
             oldCar.Registration = updatedCar.Registration;
             oldCar.Weight = updatedCar.Weight;
+            oldCar.DriverID= updatedCar.DriverID;
             return oldCar;
         }
     }

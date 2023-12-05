@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,10 +21,16 @@ namespace Data_Transfer_Objects.Model
         public int PassengerCapacity { get { return _passengerCapacity; } set { _passengerCapacity = value; } }
 
         //Linkattributes--------------------------
+        private HashSet<Car> _cars = new HashSet<Car>();
+        public HashSet<Car> Cars { get { return _cars; } }
+
+        private HashSet<Passenger> _passengers = new HashSet<Passenger>();
+        public HashSet<Passenger> Passengers { get { return _passengers; } }
 
         //Constructors -------------------------------------------------------
         public Ferry() { }
-        public Ferry(int id, string name, int capCap, int passengerCap) {
+        public Ferry(int id, string name, int capCap, int passengerCap)
+        {
             _id = id;
             _name = name;
             _carCapacity = capCap;
@@ -31,9 +38,67 @@ namespace Data_Transfer_Objects.Model
         }
 
         //Methods-------------------------------------------------------------
+        public Car AddCar(Car car)
+        {
+            if(car.Passengers.Count + Passengers.Count > PassengerCapacity 
+                || Cars.Count + 1 > CarCapacity)
+            {
+                return null;
+            }
+
+            if (_cars.Add(car))
+            {
+                return car;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Car RemoveCar(Car car)
+        {
+            if (_cars.Remove(car))
+            {
+                return car;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Passenger AddPassenger(Passenger passenger)
+        {
+            if (Passengers.Count + 1 > PassengerCapacity)
+            {
+                return null;
+            }
+
+            if (_passengers.Add(passenger))
+            {
+                return passenger;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Passenger RemovePassenger(Passenger passenger)
+        {
+
+            if (_passengers.Remove(passenger))
+            {
+                return passenger;
+            }
+            else
+            {
+                return null;
+            }
 
 
 
-
+        }
     }
 }

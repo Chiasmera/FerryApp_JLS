@@ -19,7 +19,10 @@ namespace Data_Transfer_Objects.Model
 
 
         //Linkattributes--------------------------
-
+        private HashSet<int> _passengerIDs = new HashSet<int>();
+        public HashSet<int> Passengers { get { return _passengerIDs; } set { _passengerIDs = value; } }
+        private int _driverID;
+        public int DriverID { get { return _driverID; } set { _driverID = value; } }
 
 
         //Constructors -------------------------------------------------------
@@ -33,6 +36,27 @@ namespace Data_Transfer_Objects.Model
 
 
         //Methods-------------------------------------------------------------
+        public int AddPassenger(int passengerID)
+        {
+            if(_passengerIDs.Add(passengerID))
+            {
+                return passengerID;
+            } else
+            {
+                return -1;
+            }
+        }
 
+        public int RemovePassenger(int passengerID)
+        {
+            if (_passengerIDs.Remove(passengerID))
+            {
+                return passengerID;
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }

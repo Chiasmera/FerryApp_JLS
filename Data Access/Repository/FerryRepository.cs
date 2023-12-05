@@ -74,51 +74,41 @@ namespace Data_Access.Repository
             }
         }
 
+        public static Data_Transfer_Objects.Model.Car AddCar(int ferryID, int carID)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Ferry ferry = context.Ferries.Find(ferryID);
+                if (ferry == null) { return null; }
+                Car car = context.Cars.Find(carID);
+                if (car == null) { return null; }
+                Car added = ferry.AddCar(car);
+                if (added != null)
+                {
+                    context.SaveChanges();
+                }
+                return CarMapper.MapFromDB(added);
+            }
+        }
 
-        //public static HashSet<Data_Transfer_Objects.Model.Car> GetCars(int id)
-        //{
-        //    using (FerryContext context = new FerryContext())
-        //    {
-        //        if (id < 1) { return null; }
-        //        Ferry ferry = context.Ferries.Find(id);
-        //        if (ferry == null) { return null; }
-        //        return CarMapper.MapAllFromDB(ferry.Cars);
-        //    }
+        public static Data_Transfer_Objects.Model.Car RemoveCar(int ferryID, int carID)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Ferry ferry = context.Ferries.Find(ferryID);
+                if (ferry == null) { return null; }
+                Car car = context.Cars.Find(carID);
+                if (car == null) { return null; }
+                Car removed = ferry.RemoveCar(car);
+                if (removed != null)
+                {
+                    context.SaveChanges();
+                }
+                return CarMapper.MapFromDB(removed);
+            }
+        }
 
-        //}
 
-        //public static Data_Transfer_Objects.Model.Car AddCarToFerry (int ferryID, Data_Transfer_Objects.Model.Car car, int driverID)
-        //{
-        //    using (FerryContext context = new FerryContext())
-        //    {
-        //        //Find ferry in db
-        //        Ferry ferry = context.Ferries.Find(ferryID);
-        //        if (ferry == null) { return null; }
 
-        //        //convert car to model car
-        //        Car mappedCar = CarMapper.MapToDB(car);
-
-        //        //find passenger in db
-        //        Passenger passenger = context.Passengers.Find(driverID);
-        //        if (passenger == null) { return null; }
-
-        //        //Set driver of car
-        //        mappedCar.Driver = passenger;
-
-        //        //add car to ferry
-        //        Car result = ferry.AddCar(mappedCar);
-
-        //        //save changes to db
-        //        context.SaveChanges();
-
-        //        if (result != null)
-        //        {
-        //            return car;
-        //        } else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
     }
 }
