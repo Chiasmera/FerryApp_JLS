@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Access", "Data Access\Data Access.csproj", "{D86462E8-19D3-4FC7-9CBB-9810471A5EAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access", "Data Access\Data Access.csproj", "{D86462E8-19D3-4FC7-9CBB-9810471A5EAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Transfer Objects", "Data Transfer Objects\Data Transfer Objects.csproj", "{5AC8F321-4795-4AB3-8C47-42A08207AE6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Transfer Objects", "Data Transfer Objects\Data Transfer Objects.csproj", "{5AC8F321-4795-4AB3-8C47-42A08207AE6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business Logic", "Business Logic\Business Logic.csproj", "{6632DD8C-FAF3-459E-B434-9BF607C2CAF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business Logic", "Business Logic\Business Logic.csproj", "{6632DD8C-FAF3-459E-B434-9BF607C2CAF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF\WPF.csproj", "{27D47EAD-8583-466D-B4EF-12FDED8A87A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,7 +24,7 @@ namespace Data_Access.Mappers
             mappedFerry.CarPrice = ferry.CarPrice;
             foreach (Car car in ferry.Cars)
             {
-                mappedFerry.Cars.Add(car.Id);
+                mappedFerry.Cars.Add(CarMapper.MapFromDB(car));
             }
             foreach (Passenger passenger in ferry.Passengers)
             {
@@ -73,7 +73,7 @@ namespace Data_Access.Mappers
                 map.Add(mappedFerry);
                 foreach (Car car in ferry.Cars)
                 {
-                    mappedFerry.Cars.Add(car.Id);
+                    mappedFerry.Cars.Add(CarMapper.MapFromDB(car));
                 }
                 foreach (Passenger passenger in ferry.Passengers)
                 {

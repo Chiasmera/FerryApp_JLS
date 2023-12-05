@@ -18,8 +18,8 @@ namespace Data_Access.Repository
             using (FerryContext context = new FerryContext())
             {
                 IQueryable<Ferry> ferries = context.Ferries
-                    .Include("Cars")
-                    .Include("Passengers");
+                    .Include(f => f.Cars).ThenInclude(c => c.Passengers)
+                    .Include(f => f.Passengers);
                 return FerryMapper.MapAllFromDB(ferries);
             }
         }
@@ -30,9 +30,8 @@ namespace Data_Access.Repository
             {
                 if (id < 1) { return null; }
                 Ferry ferry = context.Ferries
-                    .Include("Cars")
-                    .Include("Cars.Passengers")
-                    .Include("Passengers")
+                    .Include(f => f.Cars).ThenInclude(c => c.Passengers)
+                    .Include(f => f.Passengers)
                     .Where(f => f.Id == id)
                     .FirstOrDefault();
                 if (ferry == null) { return null; }
@@ -46,9 +45,8 @@ namespace Data_Access.Repository
             {
                 if (id < 1) { return -1; }
                 Ferry ferry = context.Ferries
-                    .Include("Cars")
-                    .Include("Cars.Passengers")
-                    .Include("Passengers")
+                    .Include(f => f.Cars).ThenInclude(c => c.Passengers)
+                    .Include(f => f.Passengers)
                     .Where(f => f.Id == id)
                     .FirstOrDefault();
                 if (ferry == null) { return -1; }
@@ -73,8 +71,8 @@ namespace Data_Access.Repository
             {
                 if (ferry == null) { return null; }
                 Ferry dbFerry = context.Ferries
-                    .Include("Cars")
-                    .Include("Passengers")
+                    .Include(f => f.Cars)
+                    .Include(f => f.Passengers)
                     .Where(f => f.Id == ferry.Id)
                     .FirstOrDefault();
                 if (dbFerry == null) { return null; }

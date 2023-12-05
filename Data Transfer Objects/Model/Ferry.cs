@@ -25,8 +25,8 @@ namespace Data_Transfer_Objects.Model
         public double CarPrice { get { return _carPrice; } set { _carPrice = value; } }
 
         //Linkattributes--------------------------
-        private HashSet<int> _cars = new HashSet<int>();
-        public HashSet<int> Cars { get { return _cars; } }
+        private HashSet<Car> _cars = new HashSet<Car>();
+        public HashSet<Car> Cars { get { return _cars; } }
 
         private HashSet<int> _passengers = new HashSet<int>();
         public HashSet<int> Passengers { get { return _passengers; } }
@@ -42,66 +42,7 @@ namespace Data_Transfer_Objects.Model
         }
 
         //Methods-------------------------------------------------------------
-        //public Car AddCar(Car car)
-        //{
-        //    if(car.Passengers.Count + Passengers.Count > PassengerCapacity 
-        //        || Cars.Count + 1 > CarCapacity)
-        //    {
-        //        return null;
-        //    }
-
-        //    if (_cars.Add(car))
-        //    {
-        //        return car;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public Car RemoveCar(Car car)
-        //{
-        //    if (_cars.Remove(car))
-        //    {
-        //        return car;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public Passenger AddPassenger(Passenger passenger)
-        //{
-        //    if (Passengers.Count + 1 > PassengerCapacity)
-        //    {
-        //        return null;
-        //    }
-
-        //    if (_passengers.Add(passenger))
-        //    {
-        //        return passenger;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public Passenger RemovePassenger(Passenger passenger)
-        //{
-
-        //    if (_passengers.Remove(passenger))
-        //    {
-        //        return passenger;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
+      
 
     }
 }

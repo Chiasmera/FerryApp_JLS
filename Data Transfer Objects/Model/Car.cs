@@ -36,27 +36,5 @@ namespace Data_Transfer_Objects.Model
 
 
         //Methods-------------------------------------------------------------
-        public int AddPassenger(int passengerID)
-        {
-            if(_passengerIDs.Add(passengerID))
-            {
-                return passengerID;
-            } else
-            {
-                return -1;
-            }
-        }
-
-        public int RemovePassenger(int passengerID)
-        {
-            if (_passengerIDs.Remove(passengerID))
-            {
-                return passengerID;
-            }
-            else
-            {
-                return -1;
-            }
-        }
     }
 }
