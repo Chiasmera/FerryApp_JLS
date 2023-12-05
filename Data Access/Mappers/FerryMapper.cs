@@ -15,23 +15,38 @@ namespace Data_Access.Mappers
         internal static Data_Transfer_Objects.Model.Ferry MapFromDB(Ferry ferry)
         {
             if (ferry == null) { return null; }
-                Data_Transfer_Objects.Model.Ferry mappedFerry = new Data_Transfer_Objects.Model.Ferry();
-                mappedFerry.Id = ferry.Id;
-                mappedFerry.CarCapacity = ferry.CarCapacity;
-                mappedFerry.PassengerCapacity = ferry.PassengerCapacity;
-                mappedFerry.Name = ferry.Name;
-                return mappedFerry;
+            Data_Transfer_Objects.Model.Ferry mappedFerry = new Data_Transfer_Objects.Model.Ferry();
+            mappedFerry.Id = ferry.Id;
+            mappedFerry.CarCapacity = ferry.CarCapacity;
+            mappedFerry.PassengerCapacity = ferry.PassengerCapacity;
+            mappedFerry.Name = ferry.Name;
+            mappedFerry.PassengerPrice = ferry.PassengerPrice;
+            mappedFerry.CarPrice = ferry.CarPrice;
+            return mappedFerry;
         }
 
         internal static Ferry MapToDB(Data_Transfer_Objects.Model.Ferry ferry)
         {
             if (ferry == null) { return null; }
             Ferry mappedFerry = new Ferry();
-                mappedFerry.Id = ferry.Id;
-                mappedFerry.CarCapacity = ferry.CarCapacity;
-                mappedFerry.PassengerCapacity = ferry.PassengerCapacity;
-                mappedFerry.Name = ferry.Name;
-                return mappedFerry;
+            mappedFerry.Id = ferry.Id;
+            mappedFerry.CarCapacity = ferry.CarCapacity;
+            mappedFerry.PassengerCapacity = ferry.PassengerCapacity;
+            mappedFerry.Name = ferry.Name;
+            mappedFerry.PassengerPrice = ferry.PassengerPrice;
+            mappedFerry.CarPrice = ferry.CarPrice;
+            return mappedFerry;
+        }
+
+        internal static Ferry Update(Ferry oldFerry, Data_Transfer_Objects.Model.Ferry updatedFerry)
+        {
+            if (oldFerry == null || updatedFerry == null) { return null; }
+            oldFerry.Name = updatedFerry.Name;
+            oldFerry.CarCapacity = updatedFerry.CarCapacity;
+            oldFerry.PassengerCapacity = updatedFerry.PassengerCapacity;
+            oldFerry.CarPrice =     updatedFerry.CarPrice;
+            oldFerry.PassengerPrice = updatedFerry.PassengerPrice;
+            return oldFerry;
         }
 
         internal static HashSet<Data_Transfer_Objects.Model.Ferry> MapAllFromDB(DbSet<Ferry> ferries)
@@ -45,6 +60,8 @@ namespace Data_Access.Mappers
                 mappedFerry.CarCapacity = ferry.CarCapacity;
                 mappedFerry.PassengerCapacity = ferry.PassengerCapacity;
                 mappedFerry.Name = ferry.Name;
+                mappedFerry.PassengerPrice = ferry.PassengerPrice;
+                mappedFerry.CarPrice = ferry.CarPrice;
                 map.Add(mappedFerry);
             }
             return map;

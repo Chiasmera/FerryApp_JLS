@@ -25,13 +25,28 @@ namespace API.Controllers
             return ferryBL.GetByID(id);
         }
 
-        //Hovedsageligt til oprettelse af testdata. Program har ikke indenfor scope at lave CRUD på færger
+        [Route("{ferryID}/Income")]
+        [HttpGet]
+        public double GetIncome(int ferryID)
+        {
+            FerryBL ferryBL = new FerryBL();
+            return ferryBL.GetIncome(ferryID);
+        }
+
         [Route("Add")]
         [HttpPost]
-        public void AddFerry(Ferry ferry)
+        public void Add(Ferry ferry)
         {
             FerryBL ferryBL = new FerryBL();
             ferryBL.Add(ferry);
+        }
+
+        [Route("Update")]
+        [HttpPut]
+        public void Update(Ferry ferry)
+        {
+            FerryBL ferryBL = new FerryBL();
+            ferryBL.Update(ferry);
         }
 
         [Route("{ferryID}/Add/Passenger/{passengerID}")]

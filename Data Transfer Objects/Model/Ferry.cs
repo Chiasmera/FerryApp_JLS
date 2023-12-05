@@ -14,11 +14,15 @@ namespace Data_Transfer_Objects.Model
         private string _name;
         private int _carCapacity;
         private int _passengerCapacity;
+        private double _passengerPrice;
+        private double _carPrice;
 
         public int Id { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public int CarCapacity { get { return _carCapacity; } set { _carCapacity = value; } }
         public int PassengerCapacity { get { return _passengerCapacity; } set { _passengerCapacity = value; } }
+        public double PassengerPrice { get { return _passengerPrice; } set { _passengerPrice = value; } }
+        public double CarPrice { get { return _carPrice; } set { _carPrice = value; } }
 
         //Linkattributes--------------------------
         private HashSet<Car> _cars = new HashSet<Car>();
@@ -96,9 +100,8 @@ namespace Data_Transfer_Objects.Model
             {
                 return null;
             }
-
-
-
         }
+
+
     }
 }
