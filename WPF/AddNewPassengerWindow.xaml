@@ -1,0 +1,28 @@
+﻿<Window x:Class="WPF.AddNewPassengerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+        Title="AddNewPassengerWindow" Height="250" Width="300">
+    <Grid Margin="14,16,16,16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="Name" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,16,0" />
+        <TextBox Text="{Binding Path=Name}" Grid.Column="1" VerticalAlignment="Bottom" />
+        <Label Content="Gender" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0" />
+        <TextBox Text="{Binding Path=Gender}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+        <DockPanel Grid.Row="2" Grid.Column="1">
+            <Button DockPanel.Dock="Left" x:Name="ok" Content="Add to car" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button DockPanel.Dock="Right" x:Name="cancel" Content="Cancel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </DockPanel>
+    </Grid>
+</Window>

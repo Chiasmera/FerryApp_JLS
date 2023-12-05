@@ -26,11 +26,21 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        Ferry selectedFerry = null;
+        Car currentCar;
+        HashSet<Passenger> passengers = new HashSet<Passenger>();
+
         public MainWindow()
         {
             InitializeComponent();
-        }
 
+            currentCar = new Car(1,"testreg",965.00);
+            carGrid.DataContext = currentCar;
+            bookingPanel.Visibility = Visibility.Collapsed;
+            passengerListBox.DataContext = passengers;
+
+            passengers.Add(new Passenger(1, "Testy McTestyson", "male"));
+        }
 
         private void ferryListView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -47,12 +57,36 @@ namespace WPF
 
             List<Ferry> ferries = JsonSerializer.Deserialize<List<Ferry>>( body , option);
 
-            
-            textBox.Text = body;
-
             ferryListView.ItemsSource = ferries;
-
-            
         }
+
+        private void addToCarByID_Click(object sender, RoutedEventArgs e)
+        {
+            FindByIDWindow window = new FindByIDWindow();
+            window.Show();
+        }
+
+        private void addNewToCar_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewPassengerWindow window = new AddNewPassengerWindow();
+            window.Show();
+
+
+            //currentCar.Passengers.Add();
+        }
+
+        private void ferryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedFerry = ferryListView.SelectedItems[0] as Ferry;
+            if (selectedFerry == null)
+            {
+                bookingPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                bookingPanel.Visibility = Visibility.Visible;
+            }
+        }
+
     }
 }

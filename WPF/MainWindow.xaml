@@ -6,19 +6,72 @@
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ListView x:Name="ferryListView" Loaded="ferryListView_Loaded" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Margin="16,4,16,16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="ferryListView" Loaded="ferryListView_Loaded" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="ferryListView_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Cars.Count}" Header="Cars" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPassengers}" Header="Passengers" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalIncome}" Header="Income" Width="60"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" Width="120"/>
+                    <GridViewColumn Header="Cars" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=Cars.Count, Mode=OneWay}" />
+                                    <Label Content="/" />
+                                    <Label Content="{Binding Path=CarCapacity , Mode=OneWay}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Passengers" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=TotalPassengers, Mode=OneWay}" />
+                                    <Label Content="/" />
+                                    <Label Content="{Binding Path=PassengerCapacity , Mode=OneWay}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalIncome}" Header="Income" Width="80"/>
+
                 </GridView>
             </ListView.View>
-
         </ListView>
-        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+        
+        <StackPanel x:Name="bookingPanel" Grid.Column="1">
+            <Label x:Name="label" Content="Booking" HorizontalAlignment="Center" FontSize="18"/>
+            <Grid x:Name="carGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Content="Car:" FontWeight="Bold"/>
+                <Label Content="Registration:" Grid.Column="1" />
+                <TextBox Grid.Column="2" Text="{Binding Path=Registration}" />
+                <Label Content="Weight:" Grid.Column="1" Grid.Row="1" />
+                <TextBox Grid.Column="2" Text="{Binding Path=Weight}" Grid.Row="1" />
+                <Label Content="Passengers:" Grid.Column="1" Grid.Row="2" />
+                <ListBox x:Name="passengerListBox" ItemsSource="{Binding}" DisplayMemberPath="Name" Grid.Column="2" Grid.Row="2" />
+                <DockPanel Grid.Row="4" Grid.Column="2">
+                    <Button DockPanel.Dock="Left" x:Name="addToCarByID" Content="Add by ID" VerticalAlignment="Center" HorizontalAlignment="Center" Click="addToCarByID_Click"/>
+                    <Button DockPanel.Dock="Right" x:Name="addNewToCar" Content="Add new" VerticalAlignment="Center" HorizontalAlignment="Center" Click="addNewToCar_Click"/>
+                </DockPanel>
 
+            </Grid>
+            
+            <Label Content="Walking:" FontWeight="Bold" Margin="0,40,0,0"/>
+        </StackPanel>
     </Grid>
 </Window>
