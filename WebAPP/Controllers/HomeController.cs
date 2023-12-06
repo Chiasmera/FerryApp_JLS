@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business_Logic;
+using Data_Transfer_Objects.Model;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebAPP.Models;
 
@@ -15,8 +17,12 @@ namespace WebAPP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            FerryBL ferryBL = new FerryBL();
+            HashSet<Ferry> ferries = ferryBL.GetAll();
+            return View(ferries);
         }
+
+
 
         public IActionResult Privacy()
         {

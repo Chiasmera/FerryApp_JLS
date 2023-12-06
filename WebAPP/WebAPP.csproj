@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Business Logic\Business Logic.csproj" />
+    <ProjectReference Include="..\Data Transfer Objects\Data Transfer Objects.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -34,20 +34,7 @@ namespace WPF
 
         private void ok_Click(object sender, RoutedEventArgs e)
         {
-            var option = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                IncludeFields = true,
-            };
-
-            HttpClient client = new HttpClient();
-
-            Task<HttpResponseMessage> task = client.PostAsJsonAsync<Passenger>(Endpoints.ADDPASSENGER, passenger);
-            HttpResponseMessage result = task.Result;
-            if (result.StatusCode == HttpStatusCode.OK)
-            {
-                passenger = JsonSerializer.Deserialize<Passenger>(result.Content.ReadAsStream(), option);
-            }
+            passenger = APIPost(Endpoints.ADDPASSENGER, passenger);
 
             this.Close();
         }
@@ -56,6 +43,34 @@ namespace WPF
         {
             passenger = null;
             this.Close();
+        }
+
+        private T APIPost<T>(string URLendpoint, T ferryAPIObject)
+        {
+
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> task = client.PostAsJsonAsync<T>(URLendpoint, ferryAPIObject);
+                HttpResponseMessage result = task.Result;
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    var option = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        IncludeFields = true,
+                    };
+                    return JsonSerializer.Deserialize<T>(result.Content.ReadAsStream(), option);
+                }
+                else
+                {
+                    return default(T);
+                }
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
         }
     }
 }

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business Logic", "Business 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{F91CF065-CBBF-4B80-92E2-9BA1DB5CF471}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF\WPF.csproj", "{27D47EAD-8583-466D-B4EF-12FDED8A87A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF", "WPF\WPF.csproj", "{27D47EAD-8583-466D-B4EF-12FDED8A87A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPP", "WebAPP\WebAPP.csproj", "{16ECD129-B360-467A-ABCC-54A0311A735B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27D47EAD-8583-466D-B4EF-12FDED8A87A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16ECD129-B360-467A-ABCC-54A0311A735B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16ECD129-B360-467A-ABCC-54A0311A735B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16ECD129-B360-467A-ABCC-54A0311A735B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16ECD129-B360-467A-ABCC-54A0311A735B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

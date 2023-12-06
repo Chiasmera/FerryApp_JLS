@@ -33,21 +33,15 @@ namespace WPF
 
         private void find_Click(object sender, RoutedEventArgs e)
         {
-            var option = new JsonSerializerOptions
+            Passenger recieved = APIGet<Passenger>(Endpoints.PASSENGER + passenger.Id);
+            if (recieved != null)
             {
-                PropertyNameCaseInsensitive = true,
-                IncludeFields = true,
-            };
-
-            HttpClient client = new HttpClient();
-
-            Task<string> task = client.GetStringAsync(Endpoints.PASSENGER + passenger.Id);
-            string result = task.Result;
-            try
-            {
-                passenger = JsonSerializer.Deserialize<Passenger>(result, option);
+                passenger = recieved;
                 this.DataContext = passenger;
-            } catch (Exception ex) { MessageBox.Show("Ingen passager fundet med det ID"); }
+            } else
+            {
+                MessageBox.Show("Ingen passager fundet med det ID");
+            }
         }
 
         private void ok_Click(object sender, RoutedEventArgs e)
@@ -59,6 +53,28 @@ namespace WPF
         {
             passenger = null;
             this.Close();
+        }
+
+        private T APIGet<T>(string URLendpoint)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                Task<string> task = client.GetStringAsync(URLendpoint);
+                string body = task.Result;
+
+                var option = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    IncludeFields = true,
+                };
+                return JsonSerializer.Deserialize<T>(body, option);
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
         }
     }
 }
