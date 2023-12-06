@@ -37,7 +37,7 @@ namespace Data_Access.Repository
 
                 context.Cars.Add(dbCar);
                 context.SaveChanges();
-                return car;
+                return CarMapper.MapFromDB(dbCar);
             }
         }
 

@@ -25,14 +25,6 @@ namespace API.Controllers
             return ferryBL.GetByID(id);
         }
 
-        //[Route("{ferryID}/Income")]
-        //[HttpGet]
-        //public double GetIncome(int ferryID)
-        //{
-        //    FerryBL ferryBL = new FerryBL();
-        //    return ferryBL.GetIncome(ferryID);
-        //}
-
         [Route("Add")]
         [HttpPost]
         public void Add(Ferry ferry)

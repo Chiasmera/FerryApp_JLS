@@ -1,0 +1,31 @@
+﻿<Window x:Class="WPF.FindPassengerByID"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+        Title="FindPassengerByID" Height="250" Width="300">
+    <Grid x:Name="passengerGrid" Margin="16,16,16,16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="ID" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0" />
+        <TextBox Text="{Binding Path=Id, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" />
+        <Button x:Name="find" Content="Find" VerticalAlignment="Center" HorizontalAlignment="Center" Click="find_Click" Grid.Column="2"/>
+        <Label Content="Name" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,16,0" Grid.Row="1" />
+        <Label x:Name="nameDisplay" Content="{Binding Path=Name}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+        <Label Content="Gender" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0" />
+        <Label x:Name="genderDisplay" Content="{Binding Path=Gender}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+        <Button  x:Name="ok" Content="Continue" VerticalAlignment="Center" HorizontalAlignment="Center" Click="ok_Click" Grid.Row="4" Grid.Column="1"/>
+        <Button  x:Name="cancel" Content="Cancel" VerticalAlignment="Center" HorizontalAlignment="Center" Click="cancel_Click" IsDefault="True" Grid.Row="4" Grid.Column="2"/>
+    </Grid>
+</Window>

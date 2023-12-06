@@ -22,12 +22,6 @@ namespace Business_Logic
             return FerryRepository.Get(id);
         }
 
-        //public double GetIncome(int id)
-        //{
-        //    if (id == null) { return -1; }
-        //    return FerryRepository.GetIncome(id);
-        //}
-
         public Ferry Add (Ferry ferry)
         {
             if (ferry == null) { return null; }
@@ -42,6 +36,7 @@ namespace Business_Logic
 
         public Passenger AddPassenger(int ferryID, int passengerID)
         {
+            //TODO - check if passenger is already in a car somewhere on the ferry, if so remove them (unless they are driver)
             if (ferryID < 0 || passengerID < 0) {  return null; }
             return FerryRepository.AddPassenger(ferryID, passengerID);
         }
@@ -54,6 +49,7 @@ namespace Business_Logic
 
         public Car AddCar(int ferryID, int carID)
         {
+            // TODO - check for each passenger if they are already on the ferry, if so remove them first
             if (ferryID < 0 || carID < 0) { return null; }
             return FerryRepository.AddCar(ferryID, carID);
         }

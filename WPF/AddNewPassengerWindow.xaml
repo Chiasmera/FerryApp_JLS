@@ -17,12 +17,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Content="Name" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,16,0" />
-        <TextBox Text="{Binding Path=Name}" Grid.Column="1" VerticalAlignment="Bottom" />
+        <TextBox Text="{Binding Path=Name, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Bottom" />
         <Label Content="Gender" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0" />
-        <TextBox Text="{Binding Path=Gender}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+        <TextBox Text="{Binding Path=Gender, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
         <DockPanel Grid.Row="2" Grid.Column="1">
-            <Button DockPanel.Dock="Left" x:Name="ok" Content="Add to car" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button DockPanel.Dock="Right" x:Name="cancel" Content="Cancel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button DockPanel.Dock="Left" x:Name="ok" Content="Continue" VerticalAlignment="Center" HorizontalAlignment="Center" Click="ok_Click"/>
+            <Button DockPanel.Dock="Right" x:Name="cancel" Content="Cancel" VerticalAlignment="Center" HorizontalAlignment="Center" Click="cancel_Click"/>
         </DockPanel>
     </Grid>
 </Window>

@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -20,19 +19,19 @@ using System.Windows.Shapes;
 namespace WPF
 {
     /// <summary>
-    /// Interaction logic for AddNewPassengerWindow.xaml
+    /// Interaction logic for FindPassengerByID.xaml
     /// </summary>
-    public partial class AddNewPassengerWindow : Window
+    public partial class FindPassengerByID : Window
     {
         public Passenger passenger;
-        public AddNewPassengerWindow()
+        public FindPassengerByID()
         {
             InitializeComponent();
             passenger = new Passenger();
             this.DataContext = passenger;
         }
 
-        private void ok_Click(object sender, RoutedEventArgs e)
+        private void find_Click(object sender, RoutedEventArgs e)
         {
             var option = new JsonSerializerOptions
             {
@@ -42,13 +41,17 @@ namespace WPF
 
             HttpClient client = new HttpClient();
 
-            Task<HttpResponseMessage> task = client.PostAsJsonAsync<Passenger>(Endpoints.ADDPASSENGER, passenger);
-            HttpResponseMessage result = task.Result;
-            if (result.StatusCode == HttpStatusCode.OK)
+            Task<string> task = client.GetStringAsync(Endpoints.PASSENGER + passenger.Id);
+            string result = task.Result;
+            try
             {
-                passenger = JsonSerializer.Deserialize<Passenger>(result.Content.ReadAsStream(), option);
-            }
+                passenger = JsonSerializer.Deserialize<Passenger>(result, option);
+                this.DataContext = passenger;
+            } catch (Exception ex) { MessageBox.Show("Ingen passager fundet med det ID"); }
+        }
 
+        private void ok_Click(object sender, RoutedEventArgs e)
+        {
             this.Close();
         }
 

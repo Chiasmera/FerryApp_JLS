@@ -25,9 +25,12 @@ namespace Data_Access.Repository
         {
             using (FerryContext context = new FerryContext())
             {
-                context.Passengers.Add(PassengerMapper.MapToDB(passenger));
+                Passenger added = PassengerMapper.MapToDB(passenger);
+                context.Passengers.Add(added);
                 context.SaveChanges();
-                return passenger;
+                Console.WriteLine(added.Id);
+                
+                return PassengerMapper.MapFromDB(added);
             }
         }
 
