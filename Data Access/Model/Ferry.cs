@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Model
 {
+     /// <summary>
+     /// Models a ferry, containing passengers and cars
+     /// </summary>
     internal class Ferry
     {
         //Fields -------------------------------------------------------------
@@ -43,6 +46,11 @@ namespace Data_Access.Model
         }
 
         //Methods-------------------------------------------------------------
+        /// <summary>
+        /// Adds a car to the ferry, removing any car passengers already present as walking on the ferry
+        /// </summary>
+        /// <param name="car">The Car object to add</param>
+        /// <returns>the added Car if successful, otherwise null</returns>
         public Car AddCar (Car car)
         {
             //checks if a passenger in the car is already present on the ferry
@@ -64,6 +72,11 @@ namespace Data_Access.Model
             }
         }
 
+        /// <summary>
+        /// Removes a car from this ferry
+        /// </summary>
+        /// <param name="car">The Car to add</param>
+        /// <returns>The added Car is successfull, null otherwise</returns>
         public Car RemoveCar (Car car)
         {
             if (_cars.Remove(car))
@@ -75,6 +88,11 @@ namespace Data_Access.Model
             }
         }
 
+        /// <summary>
+        /// Adds a Passenger to the ferry, removing it from a car if it is present and not the driver. Returns null if the passenger is a driver of a car.
+        /// </summary>
+        /// <param name="passenger">The Passenger to add</param>
+        /// <returns>The added Passenger if successful, null otherwise</returns>
         public Passenger AddPassenger (Passenger passenger)
         {
 
@@ -105,6 +123,11 @@ namespace Data_Access.Model
             }
         }
 
+        /// <summary>
+        /// Removes a passenger from the ferry
+        /// </summary>
+        /// <param name="passenger">The Passenger to add</param>
+        /// <returns>The removed Passenger if successful, null otherwise</returns>
         public Passenger RemovePassenger (Passenger passenger)
         {
 
@@ -116,7 +139,11 @@ namespace Data_Access.Model
             }
         }
 
-        public double GetTotalPrice()
+        /// <summary>
+        /// Calculates the total income of the ferry
+        /// </summary>
+        /// <returns></returns>
+        public double GetTotalIncome()
         {
             double sum = 0.0;
             foreach (Car car in _cars)
