@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Mappers
 {
+    /// <summary>
+    /// Maps Ferries from model classes to data transfer objects, and vice versa
+    /// </summary>
     internal class FerryMapper
     {
+        /// <summary>
+        /// Maps a Ferry model from the database to a corresponding Data Transfer Object 
+        /// </summary>
+        /// <param name="ferry">the Model Ferry to map</param>
+        /// <returns>a Data Transfer Object representation of the provided car</returns>
         internal static Data_Transfer_Objects.Model.Ferry MapFromDB(Ferry ferry)
         {
             if (ferry == null) { return null; }
@@ -33,6 +41,11 @@ namespace Data_Access.Mappers
             return mappedFerry;
         }
 
+        /// <summary>
+        /// Maps a Data Transfer Object to a coresponding Model Ferry
+        /// </summary>
+        /// <param name="ferry">The Data Transfer Object to map</param>
+        /// <returns>a Model Ferry representation of the provided DTO</returns>
         internal static Ferry MapToDB(Data_Transfer_Objects.Model.Ferry ferry)
         {
             if (ferry == null) { return null; }
@@ -46,6 +59,12 @@ namespace Data_Access.Mappers
             return mappedFerry;
         }
 
+        /// <summary>
+        /// Updates a Model Ferry with the mapped values from a Data Transfer Object Ferry
+        /// </summary>
+        /// <param name="oldFerry">the Model Ferry to update</param>
+        /// <param name="updatedFerry">The Data Transfer Object Ferry with the updated values</param>
+        /// <returns>A Model Ferry with updated values</returns>
         internal static Ferry Update(Ferry oldFerry, Data_Transfer_Objects.Model.Ferry updatedFerry)
         {
             if (oldFerry == null || updatedFerry == null) { return null; }
@@ -57,6 +76,11 @@ namespace Data_Access.Mappers
             return oldFerry;
         }
 
+        /// <summary>
+        /// Maps a set of Ferry models from the database to a corresponding set of Data Transfer Objects
+        /// </summary>
+        /// <param name="ferries">a Set of Model Ferries to map</param>
+        /// <returns>a Set of Data Transfer Object Ferries</returns>
         internal static HashSet<Data_Transfer_Objects.Model.Ferry> MapAllFromDB(IQueryable<Ferry> ferries)
         {
             if (ferries.IsNullOrEmpty()) { return null; }

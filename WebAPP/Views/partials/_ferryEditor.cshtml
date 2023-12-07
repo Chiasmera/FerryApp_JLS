@@ -1,0 +1,31 @@
+﻿@using Data_Transfer_Objects.Model;
+
+
+@model FerryViewModel
+
+<div>
+    @Html.LabelFor(f => f.Name)
+    @Html.EditorFor(f => f.Name)
+    @Html.ValidationMessageFor(f => f.Name)
+</div>
+<div
+    @Html.LabelFor(f => f.CarCapacity)
+    @Html.EditorFor(f => f.CarCapacity)
+    @Html.ValidationMessageFor(f => f.CarCapacity)
+</div>
+<div>
+    @Html.LabelFor(f => f.PassengerCapacity)
+    @Html.EditorFor(f => f.PassengerCapacity)
+    @Html.ValidationMessageFor(f => f.PassengerCapacity)
+</div>
+<div>
+    @Html.LabelFor(f => f.CarPrice)
+    @Html.EditorFor(f => f.CarPrice)
+    @Html.ValidationMessageFor(f => f.CarPrice)
+</div>
+<div>
+    @Html.LabelFor(f => f.PassengerPrice)
+    @Html.EditorFor(f => f.PassengerPrice)
+    @Html.ValidationMessageFor(f => f.PassengerPrice)
+</div>
+

@@ -34,7 +34,11 @@
         </table>
     </div>
 
-
+}
+else
+{
+    <h4>Sorry, no active Ferries</h4>
+}
     <br />
     <br />
 
@@ -45,12 +49,10 @@
         @using (Html.BeginForm("OnActionSubmit", "Ferry")) {
             @Html.DropDownList("ferryList", new SelectList(Model.Select(f => new {Value = f.Id, Text = f.Name}), "Value", "Text"))
             <br />
-            <input type="submit" value="Book Car" name="ferryAction">
+            <input type="submit" value="Add Ferry" name="ferryAction">
+            <input type="submit" value="Update Ferry" name="ferryAction">
+            <input type="submit" value="Remove Ferry" name="ferryAction">
             <input type="submit" value="Book Passenger" name="ferryAction">
         }
     </div>
 
-} else
-{
-    <h4>Sorry, no active Ferries</h4>
-}

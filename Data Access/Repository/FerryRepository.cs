@@ -11,8 +11,15 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repository
 {
+    /// <summary>
+    /// Responsible for managing Ferry operations in the database
+    /// </summary>
     public class FerryRepository
     {
+        /// <summary>
+        /// Retrieves all Ferries from the database
+        /// </summary>
+        /// <returns>all Ferries in the database, as a set</returns>
         public static HashSet<Data_Transfer_Objects.Model.Ferry> GetAll()
         {
             using (FerryContext context = new FerryContext())
@@ -24,6 +31,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Retrieves a specific Ferry by its ID from the database
+        /// </summary>
+        /// <param name="id">Id of the ferry</param>
+        /// <returns>the ferry with the given ID if successful, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Ferry Get(int id)
         {
             using (FerryContext context = new FerryContext())
@@ -39,32 +51,29 @@ namespace Data_Access.Repository
             }
         }
 
-        //public static double GetIncome(int id)
-        //{
-        //    using (FerryContext context = new FerryContext())
-        //    {
-        //        if (id < 1) { return -1; }
-        //        Ferry ferry = context.Ferries
-        //            .Include(f => f.Cars).ThenInclude(c => c.Passengers)
-        //            .Include(f => f.Passengers)
-        //            .Where(f => f.Id == id)
-        //            .FirstOrDefault();
-        //        if (ferry == null) { return -1; }
-        //        return ferry.GetTotalPrice();
-        //    }
-        //}
-
+        /// <summary>
+        /// Adds a ferry to the databse
+        /// </summary>
+        /// <param name="ferry">The Ferry to add to the database</param>
+        /// <returns>The added ferry if successfull, null otherwies</returns>
         public static Data_Transfer_Objects.Model.Ferry Add(Data_Transfer_Objects.Model.Ferry ferry)
         {
             using (FerryContext context = new FerryContext())
             {
                 if (ferry == null) { return null; }
-                context.Ferries.Add(FerryMapper.MapToDB(ferry));
+                Ferry dbFerry = FerryMapper.MapToDB(ferry);
+                context.Ferries.Add(dbFerry);
                 context.SaveChanges();
-                return ferry;
+
+                return FerryMapper.MapFromDB( dbFerry);
             }
         }
 
+        /// <summary>
+        /// Updates a ferry in the database to match the given ferry
+        /// </summary>
+        /// <param name="ferry">A Ferry with the updated values and the id of the ferry to update</param>
+        /// <returns>the updated ferry from the database if successfull, or null otherwise</returns>
         public static Data_Transfer_Objects.Model.Ferry Update(Data_Transfer_Objects.Model.Ferry ferry)
         {
             using (FerryContext context = new FerryContext())
@@ -79,10 +88,50 @@ namespace Data_Access.Repository
                 Ferry updated = FerryMapper.Update(dbFerry, ferry);
 
                 context.SaveChanges();
-                return ferry;
+                return FerryMapper.MapFromDB(updated);
             }
         }
 
+        /// <summary>
+        /// Removes a ferry from the database 
+        /// </summary>
+        /// <param name="ferry">The Ferry to remove from the database</param>
+        /// <returns>the removed ferry if successful, null otherwise</returns>
+        public static Data_Transfer_Objects.Model.Ferry Remove(int id)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                if (id < 1) { return null; }
+                Ferry dbFerry = context.Ferries
+                     .Include(f => f.Cars)
+                    .Include(f => f.Passengers)
+                    .Where(f => f.Id == id)
+                    .FirstOrDefault();
+                if (dbFerry == null) { return null; }
+
+                foreach (Passenger p in dbFerry.Passengers)
+                {
+                    dbFerry.Passengers.Remove(p);
+                }
+
+                foreach ( Car c in dbFerry.Cars)
+                {
+                    dbFerry.Cars.Remove(c);
+                }
+
+                context.Ferries.Remove(dbFerry);
+
+                context.SaveChanges();
+                return FerryMapper.MapFromDB(dbFerry);
+            }
+        }
+
+        /// <summary>
+        /// Adds a passenger to the ferry
+        /// </summary>
+        /// <param name="ferryID">ID of the ferry</param>
+        /// <param name="passengerID">ID of the passenger to add</param>
+        /// <returns>the Passenger added to the ferry if successfull, or null otherwise</returns>
         public static Data_Transfer_Objects.Model.Passenger AddPassenger(int ferryID, int passengerID)
         {
             using (FerryContext context = new FerryContext())
@@ -106,6 +155,12 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Removes a passenger from a ferry in the database
+        /// </summary>
+        /// <param name="ferryID">ID of the ferry</param>
+        /// <param name="passengerID">ID of the passenger to remove</param>
+        /// <returns>the Removed passenger if successfull, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Passenger RemovePassenger(int ferryID, int passengerID)
         {
             using (FerryContext context = new FerryContext())
@@ -128,6 +183,12 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Adds a car to the ferry
+        /// </summary>
+        /// <param name="ferryID">ID of the ferry</param>
+        /// <param name="carID">Id of the car to add</param>
+        /// <returns>The added car if successfull, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Car AddCar(int ferryID, int carID)
         {
             using (FerryContext context = new FerryContext())
@@ -150,6 +211,12 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Removes a car from a ferry in the database
+        /// </summary>
+        /// <param name="ferryID">the ID of the ferry</param>
+        /// <param name="carID">the Id of the car to remove</param>
+        /// <returns>The removed car if successful, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Car RemoveCar(int ferryID, int carID)
         {
             using (FerryContext context = new FerryContext())

@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repository
 {
+    /// <summary>
+    /// Responsible for operations on cars in the database, via Entity Framework
+    /// </summary>
     public class CarRepository
     {
+        /// <summary>
+        /// Retrieves a specific car from the database
+        /// </summary>
+        /// <param name="id">The Id of the Car</param>
+        /// <returns>The car with the given id, or null if none is found</returns>
         public static Data_Transfer_Objects.Model.Car GetByID(int id)
         {
             using (FerryContext context = new FerryContext())
@@ -22,6 +30,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Adds a car to the database
+        /// </summary>
+        /// <param name="car">the Car to add</param>
+        /// <returns>Thenewly added car if successfull, or null otherwise</returns>
         public static Data_Transfer_Objects.Model.Car Add(Data_Transfer_Objects.Model.Car car)
         {
             using (FerryContext context = new FerryContext())
@@ -41,6 +54,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Removes a specific car from the databse
+        /// </summary>
+        /// <param name="id">Id of the car to remove</param>
+        /// <returns>the removec Car if successfull, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Car Remove(int id)
         {
             using (FerryContext context = new FerryContext())
@@ -53,6 +71,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Updates a car in the datase to match the values of the provided car
+        /// </summary>
+        /// <param name="updatedCar">a Car with the updated values, and the ID of the Car to update</param>
+        /// <returns>The updated car from the database if sucessful, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Car Update(Data_Transfer_Objects.Model.Car updatedCar)
         {
             using (FerryContext context = new FerryContext())
@@ -92,7 +115,12 @@ namespace Data_Access.Repository
             }
         }
 
-
+        /// <summary>
+        /// Adds passengers to a car in the database
+        /// </summary>
+        /// <param name="carID">ID of the car</param>
+        /// <param name="driverIDs">A set of IDs for the passengers to add</param>
+        /// <returns>A set of the Passengers added to the car</returns>
         public static HashSet<Data_Transfer_Objects.Model.Passenger> AddPassengers(int carID, HashSet<int> driverIDs)
         {
             using (FerryContext context = new FerryContext())

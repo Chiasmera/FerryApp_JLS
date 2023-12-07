@@ -1,0 +1,13 @@
+﻿@using Data_Transfer_Objects.Model;
+
+
+@model FerryViewModel
+
+@using (Html.BeginForm("Add", "Ferry", FormMethod.Post))
+ {
+
+    @await Html.PartialAsync("~/Views/partials/_ferryEditor.cshtml", Model)
+
+    <input type="submit" value="Add" name="addFerry">
+ }
+

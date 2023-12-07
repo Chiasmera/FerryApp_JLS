@@ -62,12 +62,14 @@ namespace Data_Transfer_Objects.Model
 
         //Constructors -------------------------------------------------------
         public Ferry() { }
-        public Ferry(int id, string name, int capCap, int passengerCap)
+        public Ferry(int id, string name, int capCap, int passengerCap, double carPrice, double passengerPrice)
         {
             _id = id;
             _name = name;
             _carCapacity = capCap;
             _passengerCapacity = passengerCap;
+            _passengerPrice = passengerPrice;
+            _carPrice = carPrice;
         }
 
         //Methods-------------------------------------------------------------

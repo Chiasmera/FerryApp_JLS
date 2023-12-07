@@ -41,6 +41,15 @@ namespace API.Controllers
             ferryBL.Update(ferry);
         }
 
+
+        [Route("Remove/{id}")]
+        [HttpDelete]
+        public void Remove(int id )
+        {
+            FerryBL ferryBL = new FerryBL();
+            ferryBL.Remove(id);
+        }
+
         [Route("{ferryID}/Add/Passenger/{passengerID}")]
         [HttpPut]
         public Passenger AddPassenger(int ferryID, int passengerID)

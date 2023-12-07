@@ -140,9 +140,9 @@ namespace Data_Access.Model
         }
 
         /// <summary>
-        /// Calculates the total income of the ferry
+        /// Calculates the total income of the ferry, for all passengers and cars
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Total income of this ferry, as a double</returns>
         public double GetTotalIncome()
         {
             double sum = 0.0;

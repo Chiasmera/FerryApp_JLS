@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Context
 {
+    /// <summary>
+    /// The database context for the system, managing ferries, cars and passengers
+    /// </summary>
     internal class FerryContext : DbContext
     {
-        //Ensures database is created
         public FerryContext()
         {
             bool created = Database.EnsureCreated();
@@ -22,14 +24,12 @@ namespace Data_Access.Context
 
         }
 
-        //Configuration info for database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=TERRA\\SQLEXPRESS;Initial Catalog=FerryDB;Integrated Security=SSPI; TrustServerCertificate=true");
             optionsBuilder.LogTo(message => Debug.WriteLine(message));
         }
 
-        //DBsets for use in database
         public DbSet<Ferry> Ferries { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
         public DbSet<Car> Cars { get; set; }

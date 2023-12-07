@@ -12,13 +12,9 @@ namespace WebAPP.Models
         public int passengerID { get; set; }
 
         [Display(Name ="Name")]
-        //[Required(ErrorMessage = "You forgot to enter your name")]
-        //[StringLength(120, MinimumLength = 2, ErrorMessage = "Name must be at least 2 characters")]
         public string passengerName { get; set; }
 
         [Display(Name = "Gender")]
-        //[Required(ErrorMessage = "You forgot to enter your name")]
-        //[StringLength(120, MinimumLength = 2, ErrorMessage = "Gender must be at least 2 characters")]
         public string passengerGender { get; set; }
     }
 }

@@ -19,6 +19,10 @@ namespace WebAPP.Controllers
         {
             FerryBL ferryBL = new FerryBL();
             HashSet<Ferry> ferries = ferryBL.GetAll();
+            if (ferries == null)
+            {
+                ferries = new HashSet<Ferry>();
+            }
             return View(ferries);
         }
 

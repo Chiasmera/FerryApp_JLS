@@ -9,9 +9,17 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Repository
 {
+    /// <summary>
+    /// Responsible for managing Passenger operations in the database
+    /// </summary>
     public class PassengerRepository
     {
-        public static Data_Transfer_Objects.Model.Passenger GetByID(int id)
+        /// <summary>
+        /// Retrieves a passenger by ID from the database
+        /// </summary>
+        /// <param name="id">ID of the passenger</param>
+        /// <returns>the passenger with the provided ID from the database</returns>
+        public static Data_Transfer_Objects.Model.Passenger Get(int id)
         {
             using (FerryContext context = new FerryContext())
             {
@@ -21,6 +29,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Adds a passenger to the database
+        /// </summary>
+        /// <param name="passenger">the passenger to add</param>
+        /// <returns>the added passenger if successfull, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Passenger Add(Data_Transfer_Objects.Model.Passenger passenger)
         {
             using (FerryContext context = new FerryContext())
@@ -34,6 +47,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Removes a passenger from the database
+        /// </summary>
+        /// <param name="id">the ID of the passenger to remove</param>
+        /// <returns>the Passenger removed if successfull, null otherwise</returns>
         public static Data_Transfer_Objects.Model.Passenger Remove(int id)
         {
             using (FerryContext context = new FerryContext())
@@ -46,6 +64,11 @@ namespace Data_Access.Repository
             }
         }
 
+        /// <summary>
+        /// Updates a passenger to match the values of the provided passenger
+        /// </summary>
+        /// <param name="updatedPassenger">a Passenger with the updated values and the ID of the passenger to update</param>
+        /// <returns>The updated passenger from the database if successful, or null otherwise</returns>
         public static Data_Transfer_Objects.Model.Passenger Update(Data_Transfer_Objects.Model.Passenger updatedPassenger)
         {
             using (FerryContext context = new FerryContext())

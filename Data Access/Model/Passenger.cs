@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Data_Access.Model
 {
+    /// <summary>
+    /// Models a passenger on a ferry.
+    /// </summary>
     internal class Passenger
     {
         //Fields -------------------------------------------------------------
