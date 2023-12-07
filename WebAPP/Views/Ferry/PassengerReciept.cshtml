@@ -1,0 +1,20 @@
+﻿@using Data_Transfer_Objects.Model;
+
+
+@model Passenger
+
+<h2>Thank you for booking</h2>
+<br />
+<div>
+@Html.LabelFor(p => p.Id)
+@Html.DisplayFor(p => p.Id)
+</div>
+<div>
+    @Html.LabelFor(p => p.Name)
+    @Html.DisplayFor(p => p.Name)
+</div>
+<div>
+    @Html.LabelFor(p => p.Gender)
+    @Html.DisplayFor(p => p.Gender)
+</div>
+

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business Logic\Business Logic.csproj" />
     <ProjectReference Include="..\Data Transfer Objects\Data Transfer Objects.csproj" />
   </ItemGroup>

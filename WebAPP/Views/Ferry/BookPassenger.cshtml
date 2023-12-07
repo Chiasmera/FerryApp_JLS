@@ -1,25 +1,35 @@
-﻿@using Data_Transfer_Objects.Model;
+﻿
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Passenger
+@model PassengerBooking
 
 <h2>Book existing by id</h2>
-@using (Html.BeginForm("BookPassenger", "Ferry"))
-{
-    @Html.LabelFor(p => p.Id)
-    @Html.EditorFor(p => p.Id)     
-}
-<h1>Or</h1>
-<h2>Book New</h2>
-@using (Html.BeginForm("BookPassenger", "Ferry"))
-{
-    <div>
-        @Html.LabelFor(p => p.Name)
-        @Html.EditorFor(p => p.Gender)
-    </div>
-    <div>
-        @Html.LabelFor(p => p.Gender)
-        @Html.EditorFor(p => p.Gender)
-    </div>
-}
+@using (Html.BeginForm("BookPassengerByID", "Ferry", FormMethod.Post))
+ {
+     @Html.ValidationMessageFor(b => b.passengerID)
+     @Html.LabelFor(b => b.passengerID)
+     @Html.EditorFor(b => b.passengerID)
+
+    @Html.HiddenFor(b => b.ferryID)
+     <input type="submit" value="Book" name="findAndBook">
+ }
+ <h1>Or</h1>
+ <h2>Book New</h2>
+ @using (Html.BeginForm("BookNewPassenger", "Ferry", FormMethod.Post))
+ {
+     <div>
+         @Html.ValidationMessageFor(b => b.passengerName)
+         @Html.LabelFor(b => b.passengerName)
+         @Html.EditorFor(b => b.passengerName)
+     </div>
+     <div>
+         @Html.ValidationMessageFor(b => b.passengerGender)
+         @Html.LabelFor(b => b.passengerGender)
+         @Html.EditorFor(b => b.passengerGender)
+     </div>
+     
+     <input type="submit" value="Book" name="BookNew">
+
+     @Html.HiddenFor(b => b.ferryID)
+ }

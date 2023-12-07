@@ -41,6 +41,7 @@
     <div>
         <h4>Select a ferry and an action:</h4>
 
+
         @using (Html.BeginForm("OnActionSubmit", "Ferry")) {
             @Html.DropDownList("ferryList", new SelectList(Model.Select(f => new {Value = f.Id, Text = f.Name}), "Value", "Text"))
             <br />
