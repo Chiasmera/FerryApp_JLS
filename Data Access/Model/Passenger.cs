@@ -19,7 +19,6 @@ namespace Data_Access.Model
         public string Name { get { return _name; } set { _name = value; } }
         public string Gender { get { return _gender; } set { _gender = value; } }
 
-
         //Linkattributes--------------------------
 
 

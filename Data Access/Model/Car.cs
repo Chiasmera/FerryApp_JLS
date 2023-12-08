@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Data_Access.Model
 {
     /// <summary>
@@ -62,7 +63,13 @@ namespace Data_Access.Model
         /// <returns>the removed passenger if successfull, null otherwise</returns>
         public Passenger RemovePassenger(Passenger passenger)
         {
-            _passengers.Remove(passenger);
+            if (passenger.Id != DriverID)
+            {
+                _passengers.Remove(passenger);
+            } else
+            {
+                return null;
+            }
             return passenger;
         }
 

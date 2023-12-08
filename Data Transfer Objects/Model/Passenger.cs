@@ -16,7 +16,8 @@ namespace Data_Transfer_Objects.Model
         public int Id { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public string Gender { get { return _gender; } set { _gender = value; } }
- 
+        public FerryableType FerryType { get { return FerryableType.Passenger; } }
+
 
         //Linkattributes--------------------------
 

@@ -31,7 +31,13 @@ namespace Business_Logic
         /// <returns>the new Passenger if successfull, null otherwise</returns>
         public Passenger Add(Passenger passenger)
         {
-            if (passenger == null) { return null; }
+            if (
+                passenger == null
+                || passenger.Name.Length < 2
+                || passenger.Gender.Length < 1
+                ) { 
+                return null; 
+            }
             return PassengerRepository.Add(passenger);
         }
 
@@ -42,7 +48,14 @@ namespace Business_Logic
         /// <returns>the updated passenger if successfull, null otherwise</returns>
         public Passenger Update(Passenger updated)
         {
-            if (updated == null) { return null; }
+            if (
+                updated == null
+                || updated.Name.Length < 2
+                || updated.Gender.Length < 1
+                )
+            {
+                return null;
+            }
             return PassengerRepository.Update(updated);
         }
 

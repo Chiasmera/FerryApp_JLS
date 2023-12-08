@@ -35,6 +35,9 @@ namespace Business_Logic
         {
             if (car == null
                 || car.DriverID == null
+                || car.Registration.Length < 2
+                || car.Weight < 0
+                || car.DriverID < 1
                 || car.Passengers.Count > 5
                 || car.Passengers.Count < 1
                 || !car.Passengers.Contains(car.DriverID))
@@ -53,6 +56,9 @@ namespace Business_Logic
         {
             if (car == null
                 || car.DriverID == null
+                || car.Registration.Length < 2
+                || car.Weight < 0
+                || car.DriverID < 1
                 || car.Passengers.Count > 5
                 || car.Passengers.Count < 1
                 || !car.Passengers.Contains(car.DriverID))

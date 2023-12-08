@@ -119,20 +119,45 @@ namespace Data_Access.Repository
         /// Adds passengers to a car in the database
         /// </summary>
         /// <param name="carID">ID of the car</param>
-        /// <param name="driverIDs">A set of IDs for the passengers to add</param>
+        /// <param name="passengerIDs">A set of IDs for the passengers to add</param>
         /// <returns>A set of the Passengers added to the car</returns>
-        public static HashSet<Data_Transfer_Objects.Model.Passenger> AddPassengers(int carID, HashSet<int> driverIDs)
+        public static HashSet<Data_Transfer_Objects.Model.Passenger> AddPassengers(int carID, HashSet<int> passengerIDs)
         {
             using (FerryContext context = new FerryContext())
             {
                 Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == carID).FirstOrDefault();
                 if (car == null) { return null; }
 
-                foreach (int id in driverIDs)
+                foreach (int id in passengerIDs)
                 {
                     Passenger passenger = context.Passengers.Find(id);
                     if (passenger == null) { return null; }
                     car.AddPassenger(passenger);
+                }
+
+                context.SaveChanges();
+                return PassengerMapper.MapAllFromDB(car.Passengers);
+            }
+        }
+
+        /// <summary>
+        /// Removes passengers from a car in the database. Will not remove the driver of a car.
+        /// </summary>
+        /// <param name="carID">ID of the car</param>
+        /// <param name="passengerIDs">A set of IDs for the passengers to remove</param>
+        /// <returns>A set of the Passengers removed from the car</returns>
+        public static HashSet<Data_Transfer_Objects.Model.Passenger> RemovePassengers(int carID, HashSet<int> passengerIDs)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Car car = context.Cars.Include(c => c.Passengers).Where(c => c.Id == carID).FirstOrDefault();
+                if (car == null) { return null; }
+
+                foreach (int id in passengerIDs)
+                {
+                    Passenger passenger = context.Passengers.Find(id);
+                    if (passenger == null) { return null; }
+                    car.RemovePassenger(passenger);
                 }
 
                 context.SaveChanges();

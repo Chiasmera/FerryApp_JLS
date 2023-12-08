@@ -30,7 +30,7 @@ namespace Business_Logic
         /// <returns>the ferry with the provided ID if succcessfull, null otherwise</returns>
         public Ferry Get(int id)
         {
-            if (id == null) { return null; }
+            if (id < 1) { return null; }
             return FerryRepository.Get(id);
         }
 
@@ -41,7 +41,17 @@ namespace Business_Logic
         /// <returns>the added Ferry if successfull, null otherwise</returns>
         public Ferry Add (Ferry ferry)
         {
-            if (ferry == null) { return null; }
+            if (
+                ferry == null
+                || ferry.Name.Length < 2
+                || ferry.PassengerCapacity < 40
+                || ferry.CarCapacity < 10
+                || ferry.CarPrice < 0
+                || ferry.PassengerPrice < 0
+                )
+            {
+                return null;
+            }
             return FerryRepository.Add(ferry);
         }
 
@@ -52,7 +62,16 @@ namespace Business_Logic
         /// <returns>the updated ferry if successfull, null otherwise</returns>
         public Ferry Update(Ferry ferry)
         {
-            if (ferry == null) { return null; }
+            if (
+                ferry == null 
+                || ferry.Name.Length < 2
+                || ferry.PassengerCapacity < 40
+                || ferry.CarCapacity < 10
+                || ferry.CarPrice < 0
+                || ferry.PassengerPrice < 0
+                ) { 
+                return null; 
+            }
             return FerryRepository.Update(ferry);
         }
 
@@ -63,22 +82,33 @@ namespace Business_Logic
         }
 
         /// <summary>
-        /// Adds a passenger to a ferry
+        /// Adds a walking passenger to a ferry, removing it from a car on the ferry if present and not driver.
         /// </summary>
         /// <param name="ferryID">The ID of the ferry the passenger should be addded to</param>
         /// <param name="passengerID">the ID of the passenger to add</param>
         /// <returns>the added passenger if successfull, null othwerwise</returns>
         public Passenger AddPassenger(int ferryID, int passengerID)
         {
-            //TODO - check if passenger is already in a car somewhere on the ferry, if so remove them (unless they are driver)
-            if (ferryID < 0 || passengerID < 0) {  return null; }
+            if (ferryID < 0 || passengerID < 0) { return null; }
+            IFerryable found = FerryRepository.HasPassenger(ferryID, passengerID);
+            if (found != null && found is Car)
+            {
+                Car car = (Car)found;
+                if (car.DriverID == passengerID)
+                {
+                    return null;
+                } else
+                {
+                    car.Passengers.Remove(passengerID);
+                }
+            }
             return FerryRepository.AddPassenger(ferryID, passengerID);
         }
 
 
 
         /// <summary>
-        /// Removes a specific passenger from a ferry
+        /// Removes a specific walking passenger from a ferry
         /// </summary>
         /// <param name="ferryID">The ID of the ferry to remove the passenger from</param>
         /// <param name="passengerID">The ID of the passenger to remove</param>
@@ -90,7 +120,7 @@ namespace Business_Logic
         }
 
         /// <summary>
-        /// Adds a car, including its passengers, to a ferry
+        /// Adds a car, including its passengers, to a ferry, removing any included passengers from the walking passengers on the ferry
         /// </summary>
         /// <param name="ferryID">The ID of the ferry to which the car should be added</param>
         /// <param name="carID">The ID of the car to add</param>
@@ -98,6 +128,45 @@ namespace Business_Logic
         public Car AddCar(int ferryID, int carID)
         {
             if (ferryID < 0 || carID < 0) { return null; }
+
+            Car car = CarRepository.GetByID(carID);
+            if (car == null) { return null; }
+
+            //This is a VERY stupid and inefficient way to keep the database consistent,
+            //but it is also the only way without handling bookings/departures as a class/table in itself,
+            //which is out of scope for the assignment
+            foreach (Ferry ferry in FerryRepository.GetAll())
+            {
+                HashSet<int> removeFromCar = new HashSet<int>();
+                HashSet<int> removeFromPassengers = new HashSet<int>();
+                foreach (int pID in car.Passengers)
+                {
+                    IFerryable found = FerryRepository.HasPassenger(ferry.Id, pID);
+                    if (found != null)
+                    {
+                        if (found is Car)
+                        {
+                            Car foundCar = (Car)found;
+                            if (foundCar.DriverID == pID)
+                            {
+                                return null;
+                            }
+                            removeFromCar.Add(pID);
+                        }
+                        else if (found is Passenger)
+                        {
+                            removeFromPassengers.Add(pID);
+                        }
+                    }
+                }
+
+                CarRepository.RemovePassengers(carID, removeFromCar);
+                foreach (int id in removeFromPassengers)
+                {
+                    FerryRepository.RemovePassenger(ferry.Id, id);
+                }
+            }
+
             return FerryRepository.AddCar(ferryID, carID);
         }
 

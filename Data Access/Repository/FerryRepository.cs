@@ -127,6 +127,49 @@ namespace Data_Access.Repository
         }
 
         /// <summary>
+        /// Searches the ferry with the given id for a passenger with the given id. 
+        /// Returns if the passenger is present in a car, returns that car, otherwise if the passenger is present returns the passenger. 
+        /// Returns null if no passenger is found.
+        /// </summary>
+        /// <param name="ferryID">Id of the ferry to search</param>
+        /// <param name="passengerID">Id of the passenger to find</param>
+        /// <returns>A Car or Passenger if the passenger is present on the ferry, depending on whether the passenger is walking or driving. 
+        /// Null if no passenger with the id exists on the ferry.</returns>
+        public static Data_Transfer_Objects.Model.IFerryable HasPassenger (int ferryID, int passengerID)
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                Ferry ferry = context.Ferries
+                    .Include("Cars")
+                    .Include("Cars.Passengers")
+                    .Include("Passengers")
+                    .Where(f => f.Id == ferryID)
+                    .FirstOrDefault();
+                if (ferry == null)
+                {
+                    return null;
+                }
+
+                Passenger passenger = ferry.Passengers.Where(p => p.Id == passengerID).FirstOrDefault();
+                if (passenger != null)
+                {
+                    return PassengerMapper.MapFromDB( passenger) as Data_Transfer_Objects.Model.IFerryable;
+                }
+
+                foreach (Car car in ferry.Cars)
+                {
+                    Passenger found = car.Passengers.Where(p => p.Id == passengerID).FirstOrDefault();
+                    if (found != null)
+                    {
+                        return CarMapper.MapFromDB(car);
+                    }
+                }
+                
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Adds a passenger to the ferry
         /// </summary>
         /// <param name="ferryID">ID of the ferry</param>

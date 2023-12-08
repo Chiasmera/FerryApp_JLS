@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Data_Transfer_Objects.Model.IFerryable;
 
 namespace Data_Transfer_Objects.Model
 {
-    public class Car
+    public class Car : IFerryable
     {
         //Fields -------------------------------------------------------------
         private int _id;
@@ -16,6 +17,7 @@ namespace Data_Transfer_Objects.Model
         public int Id { get { return _id; } set { _id = value; } }
         public string Registration { get { return _registration; } set {  _registration = value; } }
         public double Weight { get { return _weight; } set { _weight = value; } }
+        public FerryableType FerryType { get { return FerryableType.Car; } }
 
 
         //Linkattributes--------------------------
