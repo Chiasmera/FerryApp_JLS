@@ -22,7 +22,7 @@ namespace API.Controllers
         {
             FerryBL ferryBL = new FerryBL();
 
-            return ferryBL.GetByID(id);
+            return ferryBL.Get(id);
         }
 
         [Route("Add")]

@@ -238,5 +238,19 @@ namespace Data_Access.Repository
                 return CarMapper.MapFromDB(removed);
             }
         }
+
+        /// <summary>
+        /// TESTDATA ONLY. Clears the whole database. Should be removed in actual program.
+        /// </summary>
+        public static void TESTClearAllData ()
+        {
+            using (FerryContext context = new FerryContext())
+            {
+                context.Ferries.RemoveRange(context.Ferries);
+                context.Cars.RemoveRange(context.Cars);
+                context.Passengers.RemoveRange(context.Passengers);
+                context.SaveChanges();
+            }
+        }
     }
 }

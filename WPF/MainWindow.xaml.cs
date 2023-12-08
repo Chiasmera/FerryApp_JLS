@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -25,13 +26,13 @@ using System.Windows.Shapes;
 namespace WPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main window of the booking management system
     /// </summary>
     public partial class MainWindow : Window
     {
-        Ferry selectedFerry = null;
-        Car currentCar;
-        ObservableCollection<Passenger> passengers = new ObservableCollection<Passenger>();
+        private Ferry selectedFerry = null;
+        private Car currentCar;
+        private ObservableCollection<Passenger> passengers = new ObservableCollection<Passenger>();
 
         public MainWindow()
         {
@@ -52,10 +53,10 @@ namespace WPF
             FindPassengerByID window = new FindPassengerByID();
             window.ShowDialog();
 
-            if (window.passenger != null
-                && window.passenger.Name.Length > 1
-                && window.passenger.Id > 0)
-            { passengers.Add(window.passenger); }
+            if (window.passenger != null)
+            {
+                passengers.Add(window.passenger);
+            }
 
         }
 
@@ -65,9 +66,7 @@ namespace WPF
             window.ShowDialog();
 
 
-            if (window.passenger != null
-                && window.passenger.Name.Length > 1
-                && window.passenger.Id > 0)
+            if (window.passenger != null)
             { passengers.Add(window.passenger); }
 
         }
@@ -85,7 +84,8 @@ namespace WPF
                 {
                     bookingPanel.Visibility = Visibility.Visible;
                 }
-            } else
+            }
+            else
             {
                 bookingPanel.Visibility = Visibility.Collapsed;
             }
@@ -94,13 +94,7 @@ namespace WPF
 
         private void bookCarButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentCar.Registration.Trim().Length == 0
-                || currentCar.Weight < 1
-                || currentCar.DriverID < 1
-                || selectedFerry == null
-                || selectedFerry.Id < 1
-                ) { MessageBox.Show("Sigende fejlbesked"); }
-            else
+            if (ValidateCarPassengers(passengers) && ValidateCar(currentCar) && ValidateDriverIsInCar(passengers, currentCar.DriverID))
             {
                 Car carToBook = new Car(0, currentCar.Registration, currentCar.Weight);
                 foreach (Passenger p in passengers)
@@ -109,14 +103,14 @@ namespace WPF
                 }
                 carToBook.DriverID = currentCar.DriverID;
 
-                Car recievedCar = APIPost(Endpoints.ADDCAR, carToBook);
+                Car recievedCar = FerryAPIServices.APIPost(Endpoints.ADDCAR, carToBook);
 
                 if (recievedCar != null && recievedCar.Id > 0)
                 {
-                    Car bookedCarResponse = APIPut(Endpoints.FERRY + $"{selectedFerry.Id}/Add/Car/{recievedCar.Id}", carToBook);
+                    Car bookedCarResponse = FerryAPIServices.APIPut(Endpoints.FERRY + $"{selectedFerry.Id}/Add/Car/{recievedCar.Id}", carToBook);
                     if (bookedCarResponse != null)
                     {
-                        MessageBox.Show("Booking lykkedes!");
+                        MessageBox.Show("Booking succeeded", "Success!");
                         currentCar = new Car();
                         carGrid.DataContext = currentCar;
                         passengerListView.ItemsSource = passengers;
@@ -144,8 +138,10 @@ namespace WPF
             FindPassengerByID window = new FindPassengerByID();
             window.ShowDialog();
 
-            BookPassengerToFerry(window.passenger);
-
+            if (window.passenger != null)
+            {
+                BookPassengerToFerry(window.passenger);
+            }
         }
 
         private void bookWalkingNew_Click(object sender, RoutedEventArgs e)
@@ -153,105 +149,92 @@ namespace WPF
             AddNewPassengerWindow window = new AddNewPassengerWindow();
             window.ShowDialog();
 
-            BookPassengerToFerry(window.passenger);
+            if (window.passenger != null)
+            {
+                BookPassengerToFerry(window.passenger);
+            }
         }
 
+        /// <summary>
+        /// Attempts to add the passenger to the ferry, by utilizing the FerryAPI
+        /// </summary>
+        /// <param name="passenger">passenger to add</param>
         private void BookPassengerToFerry(Passenger passenger)
         {
             if (passenger != null
                  && passenger.Name.Length > 1
                  && passenger.Id > 0)
             {
-                Passenger bookedPassengerResponse = APIPut(Endpoints.FERRY + $"{selectedFerry.Id}/Add/Passenger/{passenger.Id}", passenger);
+                Passenger bookedPassengerResponse = FerryAPIServices.APIPut(Endpoints.FERRY + $"{selectedFerry.Id}/Add/Passenger/{passenger.Id}", passenger);
                 if (bookedPassengerResponse != null)
                 {
-                    MessageBox.Show("Booking lykkedes!");
+                    MessageBox.Show($"{bookedPassengerResponse.Name} has been added as a passenger", "Booking succeeded!");
                 }
                 UpdateFerryView();
             }
         }
 
-        private void UpdateFerryView ()
+        /// <summary>
+        /// Manually refreshes the ferry view, by fetching the full list of ferries from the API
+        /// </summary>
+        private void UpdateFerryView()
         {
-            ferryListView.ItemsSource = APIGet<ObservableCollection<Ferry>>(Endpoints.FERRY);
+            ferryListView.ItemsSource = FerryAPIServices.APIGet<ObservableCollection<Ferry>>(Endpoints.FERRY);
         }
 
-        private T APIGet<T>(string URLendpoint)
+        private bool ValidateCar(Car car)
         {
-            HttpClient client = new HttpClient();
-
-            try
+            if (car == null) { return false; }
+            else if(car.Registration == null || car.Registration.Length < 1)
             {
-                Task<string> task = client.GetStringAsync(URLendpoint);
-                string body = task.Result;
-
-                var option = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    IncludeFields = true,
-                };
-                return JsonSerializer.Deserialize<T>(body, option);
-            }
-            catch (Exception ex)
+                MessageBox.Show("Registration cannot be empty", "Registration required");
+            } else if (car.Weight == null || car.Weight < 1)
             {
-                return default(T);
+                MessageBox.Show("Please input the cars weight. It must be a positive number.", "Weight required");
+            } else if (car.DriverID == null)
+            {
+                MessageBox.Show("Please select which passenger is driving the car. A car must have a driver.", "Driver required");
+            }  else 
+            {
+                return true;
             }
+            return false;
         }
 
-        private T APIPost<T>(string URLendpoint, T ferryAPIObject)
+        private bool ValidateCarPassengers (Collection<Passenger> passengers)
         {
-
-            try
+            if (passengers == null || passengers.Count < 1)
             {
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> task = client.PostAsJsonAsync<T>(URLendpoint, ferryAPIObject);
-                HttpResponseMessage result = task.Result;
-                if (result.StatusCode == HttpStatusCode.OK)
+                MessageBox.Show("A car must have at least one passenger (the driver)", "No Passengers");
+            }
+            else if (passengers.Count > 5)
+            {
+                MessageBox.Show("A car cannot have more than 5 passengers. Please remove passengers.", "Too many passengers");
+            } else
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool ValidateDriverIsInCar (Collection<Passenger> passengers, int driverID)
+        {
+            if (driverID == 0)
+            {
+                MessageBox.Show("The car has no driver. Please set a driver of the car.", "No Driver");
+            } else
+            {
+                foreach (Passenger p in passengers)
                 {
-                    var option = new JsonSerializerOptions
+                    if (p.Id == driverID)
                     {
-                        PropertyNameCaseInsensitive = true,
-                        IncludeFields = true,
-                    };
-                    return JsonSerializer.Deserialize<T>(result.Content.ReadAsStream(), option);
+                        return true;
+                    }
                 }
-                else
-                {
-                    return default(T);
-                }
+                MessageBox.Show("The car has no driver. Please set a driver of the car.", "No Driver");
             }
-            catch (Exception ex)
-            {
-                return default(T);
-            }
+            return false;
         }
 
-        private T APIPut<T>(string URLendpoint, T ferryAPIObject)
-        {
-
-            try
-            {
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> task = client.PutAsJsonAsync<T>(URLendpoint, ferryAPIObject);
-                HttpResponseMessage result = task.Result;
-                if (result.StatusCode == HttpStatusCode.OK)
-                {
-                    var option = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                        IncludeFields = true,
-                    };
-                    return JsonSerializer.Deserialize<T>(result.Content.ReadAsStream(), option);
-                }
-                else
-                {
-                    return default(T);
-                }
-            }
-            catch (Exception ex)
-            {
-                return default(T);
-            }
-        }
     }
 }

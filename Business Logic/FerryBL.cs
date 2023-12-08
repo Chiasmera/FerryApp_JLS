@@ -28,7 +28,7 @@ namespace Business_Logic
         /// </summary>
         /// <param name="id">The id for the Ferry</param>
         /// <returns>the ferry with the provided ID if succcessfull, null otherwise</returns>
-        public Ferry GetByID(int id)
+        public Ferry Get(int id)
         {
             if (id == null) { return null; }
             return FerryRepository.Get(id);
@@ -111,6 +111,60 @@ namespace Business_Logic
         {
             if (ferryID < 0 || carID < 0) { return null; }
             return FerryRepository.RemoveCar(ferryID, carID);
+        }
+
+        /// <summary>
+        /// ONLY FOR TESTING. Clears the database and adds the test-set of data.
+        /// </summary>
+        public void ResetTestData ()
+        {
+            FerryRepository.TESTClearAllData();
+            Ferry addedF1 = FerryRepository.Add(new Ferry(0, "Lilleput", 10, 40, 197.00, 99.00));
+            Ferry addedF2 = FerryRepository.Add(new Ferry(0, "Gargantua", 20, 80, 197.00, 99.00));
+
+            Passenger p1 = new Passenger(0, "Hans", "male");
+            Passenger p2 = new Passenger(0, "Jørgen", "male");
+            Passenger p3 = new Passenger(0, "Jens", "male");
+            Passenger p4 = new Passenger(0, "Andreas", "male");
+            Passenger p5 = new Passenger(0, "Bent", "male");
+            Passenger p6 = new Passenger(0, "Grethe", "female");
+            Passenger p7 = new Passenger(0, "Ida", "female");
+            Passenger p8 = new Passenger(0, "Amanda", "female");
+            Passenger p9 = new Passenger(0, "Katrine", "female");
+            Passenger p10 = new Passenger(0, "Ulla", "female");
+            Passenger adddedP1 = PassengerRepository.Add(p1);
+            Passenger adddedP2 = PassengerRepository.Add(p2);
+            Passenger adddedP3 = PassengerRepository.Add(p3);
+            Passenger adddedP4 = PassengerRepository.Add(p4);
+            Passenger adddedP5 = PassengerRepository.Add(p5);
+            Passenger adddedP6 = PassengerRepository.Add(p6);
+            Passenger adddedP7 = PassengerRepository.Add(p7);
+            Passenger adddedP8 = PassengerRepository.Add(p8);
+            Passenger adddedP9 = PassengerRepository.Add(p9);
+            Passenger adddedP10 = PassengerRepository.Add(p10);
+
+            Car car1 = new Car(0, "BK95661", 854);
+            car1.DriverID = adddedP1.Id;
+            car1.Passengers.Add(adddedP1.Id);
+            car1.Passengers.Add(adddedP2.Id);
+            car1.Passengers.Add(adddedP5.Id);
+            car1.Passengers.Add(adddedP7.Id);
+
+            Car car2 = new Car(0, "EX73992", 1264);
+            car2.DriverID = adddedP3.Id;
+            car2.Passengers.Add(adddedP3.Id);
+            car2.Passengers.Add(adddedP10.Id);
+
+            Car addedC1 = CarRepository.Add(car1);
+            Car addedC2 = CarRepository.Add(car2);
+
+            FerryRepository.AddCar(addedF1.Id, addedC1.Id);
+            FerryRepository.AddCar(addedF2.Id, addedC2.Id);
+
+            FerryRepository.AddPassenger(addedF1.Id, adddedP4.Id);
+            FerryRepository.AddPassenger(addedF1.Id, adddedP6.Id);
+            FerryRepository.AddPassenger(addedF1.Id, adddedP8.Id);
+            FerryRepository.AddPassenger(addedF2.Id, adddedP9.Id);
         }
 
     }

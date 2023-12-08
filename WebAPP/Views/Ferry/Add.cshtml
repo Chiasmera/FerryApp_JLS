@@ -1,5 +1,6 @@
 ﻿@using Data_Transfer_Objects.Model;
 
+@*Shows a view for adding a ferry*@
 
 @model FerryViewModel
 
@@ -11,3 +12,6 @@
     <input type="submit" value="Add" name="addFerry">
  }
 
+<br />
+<br />
+@Html.ActionLink("Back to overview", "Index", "Home")

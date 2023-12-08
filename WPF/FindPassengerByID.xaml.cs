@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 namespace WPF
 {
     /// <summary>
-    /// Interaction logic for FindPassengerByID.xaml
+    /// Window for finding a Passenger by its ID
     /// </summary>
     public partial class FindPassengerByID : Window
     {
@@ -33,20 +33,23 @@ namespace WPF
 
         private void find_Click(object sender, RoutedEventArgs e)
         {
-            Passenger recieved = APIGet<Passenger>(Endpoints.PASSENGER + passenger.Id);
+            Passenger recieved = FerryAPIServices.APIGet<Passenger>(Endpoints.PASSENGER + passenger.Id);
             if (recieved != null)
             {
                 passenger = recieved;
                 this.DataContext = passenger;
             } else
             {
-                MessageBox.Show("Ingen passager fundet med det ID");
+                MessageBox.Show("No passenger found with that ID!");
             }
         }
 
         private void ok_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (CheckValidity(passenger))
+            {
+                this.Close();
+            }
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
@@ -55,25 +58,26 @@ namespace WPF
             this.Close();
         }
 
-        private T APIGet<T>(string URLendpoint)
+        /// <summary>
+        /// Checks the validity of the passenger
+        /// </summary>
+        /// <param name="passenger">The passenger to check</param>
+        /// <returns>true if the passenger is valid, false otherwise</returns>
+        private bool CheckValidity(Passenger passenger)
         {
-            HttpClient client = new HttpClient();
-
-            try
+            if (passenger.Name == null || passenger.Name.Length < 2)
             {
-                Task<string> task = client.GetStringAsync(URLendpoint);
-                string body = task.Result;
-
-                var option = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    IncludeFields = true,
-                };
-                return JsonSerializer.Deserialize<T>(body, option);
+                MessageBox.Show("Name must be at least 2 characters", "Name Too Short");
+                return false;
             }
-            catch (Exception ex)
+            else if (passenger.Gender == null || passenger.Gender.Length < 1)
             {
-                return default(T);
+                MessageBox.Show("You must specify a gender (But it can be anything)", "No Gender");
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

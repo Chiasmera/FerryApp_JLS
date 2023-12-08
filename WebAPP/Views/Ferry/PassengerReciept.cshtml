@@ -1,5 +1,8 @@
 ﻿@using Data_Transfer_Objects.Model;
 
+@*
+    A reciepts shown after booking a passenger
+*@
 
 @model Passenger
 
@@ -18,3 +21,6 @@
     @Html.DisplayFor(p => p.Gender)
 </div>
 
+<br />
+<br />
+@Html.ActionLink("Back to overview", "Index", "Home")

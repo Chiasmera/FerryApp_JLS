@@ -53,7 +53,7 @@ namespace WebAPP.Controllers
                 {
                     if (idGood && ferryID != 0) {
                         Console.WriteLine(ferryID);
-                        Ferry ferry = ferryBL.GetByID(ferryID);
+                        Ferry ferry = ferryBL.Get(ferryID);
                         FerryViewModel ferryVM = new FerryViewModel();
                         ferryVM.Id = ferry.Id;
                         ferryVM.Name = ferry.Name;

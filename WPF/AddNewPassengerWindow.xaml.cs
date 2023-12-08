@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 namespace WPF
 {
     /// <summary>
-    /// Interaction logic for AddNewPassengerWindow.xaml
+    /// Window for adding a new passenger 
     /// </summary>
     public partial class AddNewPassengerWindow : Window
     {
@@ -34,9 +34,11 @@ namespace WPF
 
         private void ok_Click(object sender, RoutedEventArgs e)
         {
-            passenger = APIPost(Endpoints.ADDPASSENGER, passenger);
-
-            this.Close();
+            if (CheckValidity(passenger))
+            {
+                passenger = FerryAPIServices.APIPost(Endpoints.ADDPASSENGER, passenger);
+                this.Close();
+            }
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
@@ -45,31 +47,24 @@ namespace WPF
             this.Close();
         }
 
-        private T APIPost<T>(string URLendpoint, T ferryAPIObject)
+        /// <summary>
+        /// Checks the validity of the passenger
+        /// </summary>
+        /// <param name="passenger">The passenger to check</param>
+        /// <returns>true if the passenger is valid, false otherwise</returns>
+        private bool CheckValidity(Passenger passenger)
         {
-
-            try
+            if (passenger.Name == null || passenger.Name.Length < 2)
             {
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> task = client.PostAsJsonAsync<T>(URLendpoint, ferryAPIObject);
-                HttpResponseMessage result = task.Result;
-                if (result.StatusCode == HttpStatusCode.OK)
-                {
-                    var option = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                        IncludeFields = true,
-                    };
-                    return JsonSerializer.Deserialize<T>(result.Content.ReadAsStream(), option);
-                }
-                else
-                {
-                    return default(T);
-                }
-            }
-            catch (Exception ex)
+                MessageBox.Show("Name must be at least 2 characters", "Name Too Short");
+                return false;
+            } else if (passenger.Gender == null || passenger.Gender.Length < 1)
             {
-                return default(T);
+                MessageBox.Show("You must specify a gender (But it can be anything)", "No Gender");
+                return false;
+            } else
+            {
+                return true;
             }
         }
     }

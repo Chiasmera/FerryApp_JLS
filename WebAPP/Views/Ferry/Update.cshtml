@@ -1,5 +1,8 @@
 ﻿@using Data_Transfer_Objects.Model;
 
+@*
+    Shows a view for updating the values of a ferry
+*@
 
 @model FerryViewModel
 
@@ -7,10 +10,14 @@
 {
     <div>
         @Html.LabelFor(f => f.Id)
-        @Html.EditorFor(f => f.Id)
+        @Html.DisplayFor(f => f.Id)
         @Html.ValidationMessageFor(f => f.Id)
     </div>
     @await Html.PartialAsync("~/Views/partials/_ferryEditor.cshtml", Model)
 
     <input type="submit" value="Update" name="updateFerry">
 }
+
+<br />
+<br />
+@Html.ActionLink("Back to overview", "Index", "Home")
