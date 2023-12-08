@@ -132,16 +132,18 @@ namespace Business_Logic
             Car car = CarRepository.GetByID(carID);
             if (car == null) { return null; }
 
-            //This is a VERY stupid and inefficient way to keep the database consistent,
-            //but it is also the only way without handling bookings/departures as a class/table in itself,
-            //which is out of scope for the assignment
-            foreach (Ferry ferry in FerryRepository.GetAll())
-            {
+            //Database consistency will be slightly compromised with this approach, as it only ensures consistensy for the given ferry.
+            //A passenger will not be removed as walking from another ferry than the current (which they should in the current state of the system)
+            //I am not prioritizing fixing this issue, as database integrity and handling is not a focus for this assignment,
+            //and the database is suboptimal for handling booking consistency on more then one ferry
+            //the system should really be designed to handle different bookings/departures for ferries, and the passenger and/or car should be assigned to a that class instead
+            //This is out of scope for the assignment though.
+
                 HashSet<int> removeFromCar = new HashSet<int>();
                 HashSet<int> removeFromPassengers = new HashSet<int>();
                 foreach (int pID in car.Passengers)
                 {
-                    IFerryable found = FerryRepository.HasPassenger(ferry.Id, pID);
+                    IFerryable found = FerryRepository.HasPassenger(ferryID, pID);
                     if (found != null)
                     {
                         if (found is Car)
@@ -163,9 +165,9 @@ namespace Business_Logic
                 CarRepository.RemovePassengers(carID, removeFromCar);
                 foreach (int id in removeFromPassengers)
                 {
-                    FerryRepository.RemovePassenger(ferry.Id, id);
+                    FerryRepository.RemovePassenger(ferryID, id);
                 }
-            }
+            
 
             return FerryRepository.AddCar(ferryID, carID);
         }
